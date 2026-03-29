@@ -33,10 +33,14 @@
 
             /* Navigation */
             .navbar {
-                background: rgba(255, 255, 255, 0.95);
+                background: linear-gradient(
+                    135deg,
+                    var(--navy) 0%,
+                    var(--navy-light) 100%
+                );
                 backdrop-filter: blur(10px);
-                padding: 1.5rem 0;
-                box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+                padding: 1.25rem 0;
+                box-shadow: 0 8px 32px rgba(15, 23, 42, 0.15);
                 position: fixed;
                 width: 100%;
                 top: 0;
@@ -57,18 +61,29 @@
                 align-items: center;
                 gap: 0.75rem;
                 text-decoration: none;
+                transition: transform 0.3s ease;
+            }
+
+            .logo-container:hover {
+                transform: scale(1.05);
             }
 
             .logo-svg {
-                width: 42px;
-                height: 42px;
+                width: 40px;
+                height: 40px;
+                background: rgba(200, 168, 130, 0.2);
+                border-radius: 10px;
+                padding: 4px;
             }
 
             .logo-text {
-                font-family: 'Playfair Display', serif;
+                font-family: "Playfair Display", serif;
                 font-size: 1.75rem;
                 font-weight: 700;
-                color: var(--navy);
+                background: linear-gradient(to right, #c8a882, #e8c4b0);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
                 letter-spacing: -0.5px;
             }
 
@@ -79,31 +94,33 @@
             }
 
             .nav-link {
-                color: var(--gray);
+                color: rgba(255, 255, 255, 0.8);
                 text-decoration: none;
                 font-weight: 500;
                 font-size: 0.95rem;
-                transition: color 0.3s;
+                transition: color 0.3s ease;
             }
 
             .nav-link:hover {
-                color: var(--navy);
+                color: var(--gold);
             }
 
             .nav-btn {
-                padding: 0.6rem 1.5rem;
-                background: var(--navy);
-                color: var(--white);
+                padding: 0.7rem 1.8rem;
+                background: linear-gradient(135deg, #c8a882 0%, #d4b8a0 100%);
+                color: var(--navy);
                 text-decoration: none;
                 border-radius: 8px;
-                font-weight: 500;
+                font-weight: 600;
                 font-size: 0.95rem;
-                transition: all 0.3s;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgba(200, 168, 130, 0.2);
             }
 
             .nav-btn:hover {
-                background: var(--navy-light);
+                background: linear-gradient(135deg, #d4b8a0 0%, #e8c4b0 100%);
                 transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(200, 168, 130, 0.3);
             }
 
             /* Hero Section */
@@ -114,7 +131,7 @@
             }
 
             .hero-title {
-                font-family: 'Playfair Display', serif;
+                font-family: "Playfair Display", serif;
                 font-size: 3.5rem;
                 color: var(--navy);
                 margin-bottom: 1rem;
@@ -215,7 +232,7 @@
             }
 
             .event-title {
-                font-family: 'Playfair Display', serif;
+                font-family: "Playfair Display", serif;
                 font-size: 1.5rem;
                 margin-bottom: 1rem;
                 color: var(--navy);
@@ -290,7 +307,7 @@
             }
 
             .empty-state h3 {
-                font-family: 'Playfair Display', serif;
+                font-family: "Playfair Display", serif;
                 font-size: 1.75rem;
                 color: var(--navy);
                 margin-bottom: 0.5rem;
@@ -301,15 +318,30 @@
         <!-- Navigation -->
         <nav class="navbar">
             <div class="nav-container">
-                <a href="index.html" class="logo-container">
-                    <svg class="logo-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="#c8a882" stroke="#c8a882" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <a href="home.html" class="logo-container">
+                    <svg
+                        class="logo-svg"
+                        viewBox="0 0 40 40"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <rect
+                            width="40"
+                            height="40"
+                            rx="10"
+                            fill="rgba(200, 168, 130, 0.2)"
+                        />
+                        <path
+                            d="M20 10L23 17H27L22 21L24 28L20 24L16 28L18 21L13 17H17L20 10Z"
+                            fill="#c8a882"
+                        />
                     </svg>
                     <span class="logo-text">Eventize</span>
                 </a>
                 <div class="nav-links">
-                    <a href="index.html" class="nav-link">Events</a>
-                    <a href="login.html" class="nav-btn">Login</a>
+                    <a href="home.html" class="nav-link">🏠 Home</a>
+                    <a href="index.html" class="nav-link">📋 Events</a>
+                    <a href="login.html" class="nav-btn">🔐 Login</a>
                 </div>
             </div>
         </nav>
@@ -317,14 +349,23 @@
         <!-- Hero Section -->
         <section class="hero">
             <h1 class="hero-title">Discover Events</h1>
-            <p class="hero-subtitle">Explore and book amazing events near you</p>
+            <p class="hero-subtitle">
+                Explore and book amazing events near you
+            </p>
         </section>
 
         <!-- Search Section -->
         <div class="search-section">
             <div class="search-box">
-                <input type="text" id="search-input" class="search-input" placeholder="Search events by name, location..." />
-                <button class="search-btn" onclick="filterEvents()">Search</button>
+                <input
+                    type="text"
+                    id="search-input"
+                    class="search-input"
+                    placeholder="Search events by name, location..."
+                />
+                <button class="search-btn" onclick="filterEvents()">
+                    Search
+                </button>
             </div>
         </div>
 
@@ -343,9 +384,7 @@
                     const response = await fetch("/api/events");
 
                     if (!response.ok) {
-                        throw new Error(
-                            "Error loading events",
-                        );
+                        throw new Error("Error loading events");
                     }
 
                     const events = await response.json();
@@ -377,13 +416,22 @@
                 }
 
                 // Event categories for Unsplash images
-                const categories = ['conference', 'concert', 'workshop', 'seminar', 'networking', 'festival'];
-                
+                const categories = [
+                    "conference",
+                    "concert",
+                    "workshop",
+                    "seminar",
+                    "networking",
+                    "festival",
+                ];
+
                 container.innerHTML = events
                     .map((event, index) => {
                         const category = categories[index % categories.length];
-                        const imageUrl = event.image || `https://source.unsplash.com/800x600/?event,${category}`;
-                        
+                        const imageUrl =
+                            event.image ||
+                            `https://source.unsplash.com/800x600/?event,${category}`;
+
                         return `
                 <div class="event-card">
                     <div class="event-image">
@@ -421,30 +469,38 @@
             }
 
             function filterEvents() {
-                const searchTerm = document.getElementById('search-input').value.toLowerCase();
-                
+                const searchTerm = document
+                    .getElementById("search-input")
+                    .value.toLowerCase();
+
                 if (!searchTerm) {
                     displayEvents(allEvents);
                     return;
                 }
 
-                const filtered = allEvents.filter(event => 
-                    event.title.toLowerCase().includes(searchTerm) ||
-                    event.location.toLowerCase().includes(searchTerm) ||
-                    (event.description && event.description.toLowerCase().includes(searchTerm))
+                const filtered = allEvents.filter(
+                    (event) =>
+                        event.title.toLowerCase().includes(searchTerm) ||
+                        event.location.toLowerCase().includes(searchTerm) ||
+                        (event.description &&
+                            event.description
+                                .toLowerCase()
+                                .includes(searchTerm)),
                 );
 
                 displayEvents(filtered);
             }
 
             // Allow Enter key to trigger search
-            document.addEventListener('DOMContentLoaded', () => {
+            document.addEventListener("DOMContentLoaded", () => {
                 loadEvents();
-                document.getElementById('search-input').addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') {
-                        filterEvents();
-                    }
-                });
+                document
+                    .getElementById("search-input")
+                    .addEventListener("keypress", (e) => {
+                        if (e.key === "Enter") {
+                            filterEvents();
+                        }
+                    });
             });
         </script>
     </body>

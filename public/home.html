@@ -1,589 +1,575 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Eventize - Premium Event Management Platform</title>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventize - Premium Event Management Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-            :root {
-                --navy: #0f172a;
-                --navy-light: #1e293b;
-                --gold: #c8a882;
-                --cream: #faf8f5;
-                --gray: #64748b;
-                --white: #ffffff;
-            }
+        :root {
+            --navy: #0f172a;
+            --navy-light: #1e293b;
+            --gold: #c8a882;
+            --cream: #faf8f5;
+            --gray: #64748b;
+            --white: #ffffff;
+        }
 
-            body {
-                font-family: "Inter", sans-serif;
-                background: var(--cream);
-                color: var(--navy);
-                line-height: 1.6;
-            }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            color: var(--navy);
+            line-height: 1.6;
+        }
 
-            /* Navigation */
-            .navbar {
-                background: rgba(255, 255, 255, 0.95);
-                backdrop-filter: blur(10px);
-                padding: 1.5rem 0;
-                box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
-                position: fixed;
-                width: 100%;
-                top: 0;
-                z-index: 1000;
-            }
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            box-shadow: 0 8px 32px rgba(15, 23, 42, 0.15);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
 
-            .nav-container {
-                max-width: 1400px;
-                margin: 0 auto;
-                padding: 0 2rem;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-            .logo-container {
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
-                text-decoration: none;
-            }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
 
-            .logo-svg {
-                width: 42px;
-                height: 42px;
-            }
+        .logo-container:hover {
+            transform: scale(1.05);
+        }
 
-            .logo-text {
-                font-family: "Playfair Display", serif;
-                font-size: 1.75rem;
-                font-weight: 700;
-                color: var(--navy);
-                letter-spacing: -0.5px;
-            }
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(200, 168, 130, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-            .nav-links {
-                display: flex;
-                gap: 2rem;
-                align-items: center;
-            }
+        .logo-svg {
+            width: 24px;
+            height: 24px;
+        }
 
-            .nav-link {
-                color: var(--gray);
-                text-decoration: none;
-                font-weight: 500;
-                font-size: 0.95rem;
-                transition: color 0.3s;
-            }
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold) 0%, #e8c4b0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-            .nav-link:hover {
-                color: var(--navy);
-            }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
 
-            /* Hero Section */
-            .hero {
-                margin-top: 90px;
-                padding: 6rem 2rem 4rem;
-                text-align: center;
-                position: relative;
-                overflow: hidden;
-            }
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
 
-            .hero::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 80%;
-                height: 100%;
-                background: radial-gradient(
-                    ellipse at center,
-                    rgba(200, 168, 130, 0.08) 0%,
-                    transparent 70%
-                );
-                z-index: 0;
-            }
+        .nav-link:hover {
+            color: var(--gold);
+        }
 
-            .hero-content {
-                max-width: 900px;
-                margin: 0 auto;
-                position: relative;
-                z-index: 1;
-            }
+        .nav-btn {
+            padding: 0.6rem 1.5rem;
+            background: linear-gradient(135deg, var(--gold) 0%, #e8c4b0 100%);
+            color: var(--navy);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
 
-            .hero-subtitle {
-                color: var(--gold);
-                font-size: 0.95rem;
-                font-weight: 600;
-                text-transform: uppercase;
-                letter-spacing: 2px;
-                margin-bottom: 1.5rem;
-            }
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(200, 168, 130, 0.3);
+        }
 
+        /* Hero Section */
+        .hero {
+            margin-top: 90px;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(200, 168, 130, 0.08) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-subtitle {
+            color: var(--gold);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--navy);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            color: var(--white);
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.20);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--navy);
+            border: 2px solid var(--navy);
+        }
+
+        .btn-secondary:hover {
+            background: var(--navy);
+            color: var(--white);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 2rem;
+            background: var(--white);
+        }
+
+        .features-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .features-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .features-label {
+            color: var(--gold);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .features-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.75rem;
+            color: var(--navy);
+            margin-bottom: 1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .feature-card {
+            background: var(--cream);
+            padding: 2.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(15, 23, 42, 0.05);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 6rem 2rem;
+            background: var(--navy);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(200, 168, 130, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(200, 168, 130, 0.1) 0%, transparent 50%);
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-description {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+        }
+
+        .btn-cta {
+            background: var(--gold);
+            color: var(--navy);
+            font-weight: 700;
+        }
+
+        .btn-cta:hover {
+            background: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(200, 168, 130, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--navy-light);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 3rem 2rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.7;
+        }
+
+        .footer-title {
+            color: var(--white);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        @media (max-width: 1024px) {
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
             .hero-title {
-                font-family: "Playfair Display", serif;
-                font-size: 4rem;
-                font-weight: 700;
-                color: var(--navy);
-                line-height: 1.1;
-                margin-bottom: 1.5rem;
-                letter-spacing: -1px;
-            }
-
-            .hero-description {
-                font-size: 1.25rem;
-                color: var(--gray);
-                line-height: 1.8;
-                margin-bottom: 3rem;
-                max-width: 700px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .hero-buttons {
-                display: flex;
-                gap: 1.5rem;
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-
-            /* Buttons */
-            .btn {
-                padding: 1rem 2.5rem;
-                font-size: 1rem;
-                font-weight: 600;
-                text-decoration: none;
-                border-radius: 8px;
-                transition: all 0.3s ease;
-                display: inline-block;
-                cursor: pointer;
-                border: none;
-            }
-
-            .btn-primary {
-                background: var(--navy);
-                color: var(--white);
-                box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
-            }
-
-            .btn-primary:hover {
-                background: var(--navy-light);
-                transform: translateY(-2px);
-                box-shadow: 0 6px 20px rgba(15, 23, 42, 0.2);
-            }
-
-            .btn-secondary {
-                background: transparent;
-                color: var(--navy);
-                border: 2px solid var(--navy);
-            }
-
-            .btn-secondary:hover {
-                background: var(--navy);
-                color: var(--white);
-            }
-
-            /* Features Section */
-            .features {
-                padding: 5rem 2rem;
-                background: var(--white);
-            }
-
-            .features-container {
-                max-width: 1400px;
-                margin: 0 auto;
-            }
-
-            .features-header {
-                text-align: center;
-                margin-bottom: 4rem;
-            }
-
-            .features-label {
-                color: var(--gold);
-                font-size: 0.9rem;
-                font-weight: 600;
-                text-transform: uppercase;
-                letter-spacing: 2px;
-                margin-bottom: 1rem;
-            }
-
-            .features-title {
-                font-family: "Playfair Display", serif;
-                font-size: 2.75rem;
-                color: var(--navy);
-                margin-bottom: 1rem;
+                font-size: 2.5rem;
             }
 
             .features-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-                gap: 2.5rem;
-            }
-
-            .feature-card {
-                background: var(--cream);
-                padding: 2.5rem;
-                border-radius: 12px;
-                transition: all 0.3s ease;
-                border: 1px solid rgba(15, 23, 42, 0.05);
-            }
-
-            .feature-card:hover {
-                transform: translateY(-8px);
-                box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
-            }
-
-            .feature-icon {
-                width: 60px;
-                height: 60px;
-                background: linear-gradient(
-                    135deg,
-                    var(--navy) 0%,
-                    var(--navy-light) 100%
-                );
-                border-radius: 12px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 1.75rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .feature-title {
-                font-size: 1.5rem;
-                font-weight: 700;
-                color: var(--navy);
-                margin-bottom: 1rem;
-            }
-
-            .feature-description {
-                color: var(--gray);
-                line-height: 1.7;
-            }
-
-            /* CTA Section */
-            .cta {
-                padding: 6rem 2rem;
-                background: var(--navy);
-                text-align: center;
-                position: relative;
-                overflow: hidden;
-            }
-
-            .cta::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background:
-                    radial-gradient(
-                        circle at 20% 50%,
-                        rgba(200, 168, 130, 0.1) 0%,
-                        transparent 50%
-                    ),
-                    radial-gradient(
-                        circle at 80% 50%,
-                        rgba(200, 168, 130, 0.1) 0%,
-                        transparent 50%
-                    );
-            }
-
-            .cta-content {
-                max-width: 800px;
-                margin: 0 auto;
-                position: relative;
-                z-index: 1;
-            }
-
-            .cta-title {
-                font-family: "Playfair Display", serif;
-                font-size: 3rem;
-                color: var(--white);
-                margin-bottom: 1.5rem;
-            }
-
-            .cta-description {
-                font-size: 1.25rem;
-                color: rgba(255, 255, 255, 0.85);
-                margin-bottom: 2.5rem;
-                line-height: 1.7;
-            }
-
-            .btn-cta {
-                background: var(--gold);
-                color: var(--navy);
-                font-weight: 700;
-            }
-
-            .btn-cta:hover {
-                background: var(--white);
-                transform: translateY(-2px);
-                box-shadow: 0 8px 25px rgba(200, 168, 130, 0.3);
-            }
-
-            /* Footer */
-            .footer {
-                background: var(--navy-light);
-                color: rgba(255, 255, 255, 0.7);
-                padding: 3rem 2rem 2rem;
+                grid-template-columns: 1fr;
             }
 
             .footer-container {
-                max-width: 1400px;
-                margin: 0 auto;
-                display: grid;
-                grid-template-columns: 2fr 1fr 1fr 1fr;
-                gap: 3rem;
-                margin-bottom: 2rem;
+                grid-template-columns: 1fr;
             }
 
-            .footer-brand {
-                display: flex;
-                align-items: flex-start;
-                gap: 0.75rem;
-                margin-bottom: 1rem;
+            .nav-links {
+                display: none;
             }
-
-            .footer-brand-text {
-                font-family: "Playfair Display", serif;
-                font-size: 1.5rem;
-                font-weight: 700;
-                color: var(--white);
-            }
-
-            .footer-description {
-                color: rgba(255, 255, 255, 0.6);
-                line-height: 1.7;
-            }
-
-            .footer-title {
-                color: var(--white);
-                font-weight: 600;
-                margin-bottom: 1rem;
-            }
-
-            .footer-links {
-                list-style: none;
-            }
-
-            .footer-links li {
-                margin-bottom: 0.75rem;
-            }
-
-            .footer-links a {
-                color: rgba(255, 255, 255, 0.6);
-                text-decoration: none;
-                transition: color 0.3s;
-            }
-
-            .footer-links a:hover {
-                color: var(--gold);
-            }
-
-            .footer-bottom {
-                text-align: center;
-                padding-top: 2rem;
-                border-top: 1px solid rgba(255, 255, 255, 0.1);
-                color: rgba(255, 255, 255, 0.5);
-            }
-
-            @media (max-width: 1024px) {
-                .footer-container {
-                    grid-template-columns: 1fr 1fr;
-                }
-            }
-
-            @media (max-width: 768px) {
-                .hero-title {
-                    font-size: 2.5rem;
-                }
-
-                .features-grid {
-                    grid-template-columns: 1fr;
-                }
-
-                .footer-container {
-                    grid-template-columns: 1fr;
-                }
-
-                .nav-links {
-                    display: none;
-                }
-            }
-        </style>
-    </head>
-    <body>
-        <!-- Navigation -->
-        <nav class="navbar">
-            <div class="nav-container">
-                <a href="home.html" class="logo-container">
-                    <svg
-                        class="logo-svg"
-                        viewBox="0 0 40 40"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <rect width="40" height="40" rx="10" fill="#0f172a" />
-                        <path
-                            d="M20 10L23 17H27L22 21L24 28L20 24L16 28L18 21L13 17H17L20 10Z"
-                            fill="#c8a882"
-                        />
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="home.html" class="logo-container">
+                <span class="logo-icon">
+                    <svg class="logo-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="40" height="40" rx="10" fill="rgba(200, 168, 130, 0.2)"/>
+                        <path d="M20 10L23 17H27L22 21L24 28L20 24L16 28L18 21L13 17H17L20 10Z" fill="#c8a882"/>
                     </svg>
-                    <span class="logo-text">Eventize</span>
-                </a>
-                <div class="nav-links">
-                    <a href="#features" class="nav-link">Features</a>
-                    <a href="index.html" class="nav-link">Events</a>
-                    <a href="login.html" class="nav-link">Login</a>
-                </div>
+                </span>
+                <span class="logo-text">Eventize</span>
+            </a>
+            <div class="nav-links">
+                <a href="#features" class="nav-link">✨ Features</a>
+                <a href="index.html" class="nav-link">📋 Events</a>
+                <a href="login.html" class="nav-btn">🔐 Login</a>
             </div>
-        </nav>
+        </div>
+    </nav>
 
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content">
-                <p class="hero-subtitle">Premium Event Management</p>
-                <h1 class="hero-title">
-                    Create Unforgettable Events with Elegance
-                </h1>
-                <p class="hero-description">
-                    A sophisticated platform designed for modern event
-                    organizers and attendees. Experience seamless event
-                    management with powerful tools and elegant design.
-                </p>
-                <div class="hero-buttons">
-                    <a href="index.html" class="btn btn-primary"
-                        >Browse Events</a
-                    >
-                    <a href="login.html" class="btn btn-secondary"
-                        >Admin Access</a
-                    >
-                </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-subtitle">Premium Event Management</p>
+            <h1 class="hero-title">Create Unforgettable Events with Elegance</h1>
+            <p class="hero-description">
+                A sophisticated platform designed for modern event organizers and attendees.
+                Experience seamless event management with powerful tools and elegant design.
+            </p>
+            <div class="hero-buttons">
+                <a href="index.html" class="btn btn-primary">📋 Browse Events</a>
+                <a href="login.html" class="btn btn-secondary">👤 Admin Access</a>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Features Section -->
-        <section class="features" id="features">
-            <div class="features-container">
-                <div class="features-header">
-                    <p class="features-label">What We Offer</p>
-                    <h2 class="features-title">Everything You Need</h2>
-                </div>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">🎯</div>
-                        <h3 class="feature-title">Smart Booking</h3>
-                        <p class="feature-description">
-                            Effortlessly discover and book your favorite events
-                            with our intuitive interface. Instant confirmations
-                            and secure transactions guaranteed.
-                        </p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">📊</div>
-                        <h3 class="feature-title">Admin Dashboard</h3>
-                        <p class="feature-description">
-                            Comprehensive dashboard for event organizers. Manage
-                            events, track reservations, and analyze attendance
-                            with powerful analytics tools.
-                        </p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🔒</div>
-                        <h3 class="feature-title">Secure Authentication</h3>
-                        <p class="feature-description">
-                            Protected by WebAuthn technology with passwordless
-                            authentication. Your data security is our top
-                            priority.
-                        </p>
-                    </div>
-                </div>
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="features-container">
+            <div class="features-header">
+                <p class="features-label">What We Offer</p>
+                <h2 class="features-title">Everything You Need</h2>
             </div>
-        </section>
-
-        <!-- CTA Section -->
-        <section class="cta">
-            <div class="cta-content">
-                <h2 class="cta-title">Ready to Get Started?</h2>
-                <p class="cta-description">
-                    Join thousands of event organizers and attendees who trust
-                    Eventize for their event management needs.
-                </p>
-                <a href="index.html" class="btn btn-cta">Explore Events Now</a>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-container">
-                <div>
-                    <div class="footer-brand">
-                        <svg
-                            class="logo-svg"
-                            viewBox="0 0 40 40"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <rect
-                                width="40"
-                                height="40"
-                                rx="10"
-                                fill="rgba(200, 168, 130, 0.2)"
-                            />
-                            <path
-                                d="M20 10L23 17H27L22 21L24 28L20 24L16 28L18 21L13 17H17L20 10Z"
-                                fill="#c8a882"
-                            />
-                        </svg>
-                        <span class="footer-brand-text">Eventize</span>
-                    </div>
-                    <p class="footer-description">
-                        Premium event management platform designed for modern
-                        organizers and attendees.
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Smart Booking</h3>
+                    <p class="feature-description">
+                        Effortlessly discover and book your favorite events with our intuitive interface.
+                        Instant confirmations and secure transactions guaranteed.
                     </p>
                 </div>
-                <div>
-                    <h4 class="footer-title">Platform</h4>
-                    <ul class="footer-links">
-                        <li><a href="index.html">Browse Events</a></li>
-                        <li><a href="login.html">Login</a></li>
-                        <li><a href="admin.html">Admin</a></li>
-                    </ul>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Admin Dashboard</h3>
+                    <p class="feature-description">
+                        Comprehensive dashboard for event organizers. Manage events, track reservations,
+                        and analyze attendance with powerful tools.
+                    </p>
                 </div>
-                <div>
-                    <h4 class="footer-title">Company</h4>
-                    <ul class="footer-links">
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                        <li><a href="#careers">Careers</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="footer-title">Legal</h4>
-                    <ul class="footer-links">
-                        <li><a href="#privacy">Privacy Policy</a></li>
-                        <li><a href="#terms">Terms of Service</a></li>
-                        <li><a href="#cookies">Cookie Policy</a></li>
-                    </ul>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Secure Authentication</h3>
+                    <p class="feature-description">
+                        Protected by WebAuthn technology with passwordless authentication.
+                        Your data security is our top priority.
+                    </p>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 Eventize. All rights reserved.</p>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="cta-content">
+            <h2 class="cta-title">Ready to Get Started?</h2>
+            <p class="cta-description">
+                Join thousands of event organizers and attendees who trust Eventize
+                for their event management needs.
+            </p>
+            <a href="index.html" class="btn btn-cta">🚀 Explore Events Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div>
+                <div class="footer-brand">
+                    <span class="logo-icon" style="background: rgba(200, 168, 130, 0.3);">
+                        <svg class="logo-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="40" height="40" rx="10" fill="rgba(200, 168, 130, 0.2)"/>
+                            <path d="M20 10L23 17H27L22 21L24 28L20 24L16 28L18 21L13 17H17L20 10Z" fill="#c8a882"/>
+                        </svg>
+                    </span>
+                    <span class="footer-brand-text">Eventize</span>
+                </div>
+                <p class="footer-description">
+                    Premium event management platform designed for modern organizers and attendees.
+                </p>
             </div>
-        </footer>
-    </body>
+            <div>
+                <h4 class="footer-title">Platform</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Browse Events</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="admin.html">Admin</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-title">Company</h4>
+                <ul class="footer-links">
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#careers">Careers</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-title">Legal</h4>
+                <ul class="footer-links">
+                    <li><a href="#privacy">Privacy Policy</a></li>
+                    <li><a href="#terms">Terms of Service</a></li>
+                    <li><a href="#cookies">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Eventize. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
 </html>
