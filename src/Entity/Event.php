@@ -165,6 +165,7 @@ class Event
             'seats' => $this->seats,
             'availableSeats' => $this->getAvailableSeats(),
             'image' => $this->image,
+            'reservationCount' => count($this->reservations),
         ];
     }
 }

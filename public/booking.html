@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Eventize - Book Your Event</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            :root {
+                --navy: #0f172a;
+                --navy-light: #1e293b;
+                --gold: #c8a882;
+                --cream: #faf8f5;
+                --gray: #64748b;
+                --white: #ffffff;
+                --teal: #4a9b7f;
+            }
+
+            body {
+                font-family: "Inter", sans-serif;
+                background: var(--cream);
+                color: var(--navy);
+                line-height: 1.6;
+            }
+
+            /* Navigation */
+            .navbar {
+                background: linear-gradient(
+                    135deg,
+                    var(--cream) 0%,
+                    #faf8f5 100%
+                );
+                padding: 1.5rem 2rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+                border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+            }
+
+            .logo {
+                font-family: "Playfair Display", serif;
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: var(--navy);
+                text-decoration: none;
+                letter-spacing: 1px;
+            }
+
+            .nav-links {
+                display: flex;
+                gap: 3rem;
+                align-items: center;
+            }
+
+            .nav-link {
+                color: var(--gray);
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 0.95rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                transition: color 0.3s;
+            }
+
+            .nav-link:hover {
+                color: var(--teal);
+            }
+
+            .nav-link.admin {
+                color: var(--teal);
+            }
+
+            /* Container */
+            .container {
+                max-width: 900px;
+                margin: 0 auto;
+                padding: 3rem 2rem;
+            }
+
+            /* Page Header */
+            .page-header {
+                text-align: center;
+                margin-bottom: 3rem;
+            }
+
+            .page-header h1 {
+                font-family: "Playfair Display", serif;
+                font-size: 2.5rem;
+                color: var(--navy);
+                margin-bottom: 0.5rem;
+            }
+
+            .page-header p {
+                color: var(--gray);
+                font-size: 1.1rem;
+            }
+
+            /* Booking Card */
+            .booking-card {
+                background: var(--white);
+                border-radius: 12px;
+                padding: 3rem;
+                box-shadow: 0 2px 12px rgba(15, 23, 42, 0.08);
+                border: 1px solid rgba(15, 23, 42, 0.05);
+            }
+
+            /* Loading State */
+            .loading {
+                text-align: center;
+                padding: 2rem;
+                color: var(--gray);
+            }
+
+            /* Error State */
+            .error {
+                background: #fef2f2;
+                color: #991b1b;
+                padding: 1rem;
+                border-radius: 8px;
+                margin-bottom: 1.5rem;
+                border: 1px solid #fecaca;
+                display: none;
+            }
+
+            /* Success State */
+            .success {
+                background: #f0fdf4;
+                color: #166534;
+                padding: 1.5rem;
+                border-radius: 8px;
+                text-align: center;
+                border: 1px solid #a7f3d0;
+            }
+
+            /* Form Group */
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+
+            .form-label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 600;
+                color: var(--navy);
+                font-size: 0.95rem;
+            }
+
+            .form-input {
+                width: 100%;
+                padding: 0.875rem;
+                border: 2px solid #e2e8f0;
+                border-radius: 8px;
+                font-size: 1rem;
+                font-family: "Inter", sans-serif;
+                transition: all 0.3s ease;
+            }
+
+            .form-input:focus {
+                outline: none;
+                border-color: var(--gold);
+                box-shadow: 0 0 0 3px rgba(200, 168, 130, 0.1);
+            }
+
+            /* Event Details */
+            .event-details {
+                background: linear-gradient(
+                    135deg,
+                    var(--cream) 0%,
+                    #faf8f5 100%
+                );
+                padding: 2rem;
+                border-radius: 8px;
+                margin-bottom: 2rem;
+                display: none;
+            }
+
+            .event-details.active {
+                display: block;
+            }
+
+            .event-detail-item {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 1rem;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+            }
+
+            .event-detail-item:last-child {
+                border-bottom: none;
+                margin-bottom: 0;
+                padding-bottom: 0;
+            }
+
+            .event-detail-label {
+                font-weight: 600;
+                color: var(--navy);
+            }
+
+            .event-detail-value {
+                color: var(--gray);
+            }
+
+            /* Buttons */
+            .form-section {
+                display: none;
+            }
+
+            .form-section.active {
+                display: block;
+            }
+
+            .btn {
+                display: inline-block;
+                padding: 0.875rem 2rem;
+                background: linear-gradient(
+                    135deg,
+                    var(--navy) 0%,
+                    var(--navy-light) 100%
+                );
+                color: var(--white);
+                text-decoration: none;
+                border: none;
+                border-radius: 8px;
+                font-weight: 600;
+                font-size: 1rem;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                width: 100%;
+                text-align: center;
+            }
+
+            .btn:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(15, 23, 42, 0.2);
+            }
+
+            .btn:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+
+            .btn-secondary {
+                background: transparent;
+                color: var(--navy);
+                border: 2px solid var(--navy);
+                margin-top: 1rem;
+            }
+
+            .btn-secondary:hover:not(:disabled) {
+                background: var(--navy);
+                color: var(--white);
+            }
+
+            /* No Seats Message */
+            .no-seats {
+                background: #fef2f2;
+                color: #991b1b;
+                padding: 1.5rem;
+                border-radius: 8px;
+                text-align: center;
+                border: 1px solid #fecaca;
+            }
+
+            /* Responsive */
+            @media (max-width: 768px) {
+                .navbar {
+                    padding: 1rem;
+                }
+
+                .nav-links {
+                    gap: 1rem;
+                }
+
+                .nav-link {
+                    font-size: 0.75rem;
+                }
+
+                .booking-card {
+                    padding: 1.5rem;
+                }
+
+                .page-header h1 {
+                    font-size: 1.75rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar">
+            <a href="home.html" class="logo">⭐ EVENTIZE</a>
+            <div class="nav-links">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="index.html" class="nav-link">Events</a>
+                <a href="booking.html" class="nav-link">Book</a>
+                <a href="login.html" class="nav-link admin">Admin</a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="container">
+            <div class="page-header">
+                <h1>Book Your Event</h1>
+                <p>Select an event and secure your seat today</p>
+            </div>
+
+            <div class="booking-card">
+                <div id="error" class="error"></div>
+                <div id="loading" class="loading">
+                    Loading available events...
+                </div>
+
+                <div id="booking-form-section" class="form-section">
+                    <!-- Event Selection -->
+                    <div class="form-group">
+                        <label class="form-label" for="event-select"
+                            >Select an Event *</label
+                        >
+                        <select id="event-select" class="form-input">
+                            <option value="">Choose an event...</option>
+                        </select>
+                    </div>
+
+                    <!-- Event Details -->
+                    <div id="event-details" class="event-details">
+                        <div class="event-detail-item">
+                            <span class="event-detail-label">Date & Time:</span>
+                            <span
+                                class="event-detail-value"
+                                id="detail-date"
+                            ></span>
+                        </div>
+                        <div class="event-detail-item">
+                            <span class="event-detail-label">Location:</span>
+                            <span
+                                class="event-detail-value"
+                                id="detail-location"
+                            ></span>
+                        </div>
+                        <div class="event-detail-item">
+                            <span class="event-detail-label"
+                                >Available Seats:</span
+                            >
+                            <span
+                                class="event-detail-value"
+                                id="detail-seats"
+                            ></span>
+                        </div>
+                        <div class="event-detail-item">
+                            <span class="event-detail-label">Description:</span>
+                            <span
+                                class="event-detail-value"
+                                id="detail-description"
+                            ></span>
+                        </div>
+                    </div>
+
+                    <!-- No Seats Message -->
+                    <div
+                        id="no-seats-message"
+                        class="no-seats"
+                        style="display: none"
+                    >
+                        Sorry, there are no more seats available for this event.
+                    </div>
+
+                    <!-- Reservation Form -->
+                    <form id="reservation-form" style="display: none">
+                        <div class="form-group">
+                            <label class="form-label" for="name"
+                                >Full Name *</label
+                            >
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                class="form-input"
+                                placeholder="Enter your full name"
+                                required
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="email"
+                                >Email *</label
+                            >
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                class="form-input"
+                                placeholder="Enter your email address"
+                                required
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="phone"
+                                >Phone *</label
+                            >
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                class="form-input"
+                                placeholder="Enter your phone number"
+                                required
+                            />
+                        </div>
+
+                        <button type="submit" class="btn" id="submit-btn">
+                            Confirm Reservation
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            id="cancel-btn"
+                        >
+                            Reset Form
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <script>
+            let events = [];
+            let selectedEvent = null;
+
+            // Load all events
+            async function loadEvents() {
+                try {
+                    const response = await fetch("/api/events");
+                    if (!response.ok) throw new Error("Failed to load events");
+
+                    events = await response.json();
+                    populateEventSelect();
+                    document.getElementById("loading").style.display = "none";
+                    document.getElementById(
+                        "booking-form-section",
+                    ).style.display = "block";
+                } catch (error) {
+                    console.error("Error:", error);
+                    showError("Failed to load events. Please try again later.");
+                }
+            }
+
+            // Populate event dropdown
+            function populateEventSelect() {
+                const select = document.getElementById("event-select");
+                const options = events
+                    .map(
+                        (event) => `
+                <option value="${event.id}">${event.title} - ${new Date(event.date).toLocaleDateString()}</option>
+            `,
+                    )
+                    .join("");
+
+                select.innerHTML = `<option value="">Choose an event...</option>${options}`;
+            }
+
+            // Handle event selection
+            document
+                .getElementById("event-select")
+                .addEventListener("change", function () {
+                    const eventId = parseInt(this.value);
+                    if (!eventId) {
+                        document
+                            .getElementById("event-details")
+                            .classList.remove("active");
+                        document.getElementById(
+                            "reservation-form",
+                        ).style.display = "none";
+                        document.getElementById(
+                            "no-seats-message",
+                        ).style.display = "none";
+                        selectedEvent = null;
+                        return;
+                    }
+
+                    selectedEvent = events.find((e) => e.id === eventId);
+                    if (selectedEvent) {
+                        displayEventDetails();
+                    }
+                });
+
+            // Display event details
+            function displayEventDetails() {
+                if (!selectedEvent) return;
+
+                document.getElementById("detail-date").textContent = new Date(
+                    selectedEvent.date,
+                ).toLocaleDateString("en-US", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                });
+
+                document.getElementById("detail-location").textContent =
+                    selectedEvent.location;
+                document.getElementById("detail-seats").textContent =
+                    `${selectedEvent.availableSeats} seat${selectedEvent.availableSeats !== 1 ? "s" : ""}`;
+                document.getElementById("detail-description").textContent =
+                    selectedEvent.description;
+
+                document
+                    .getElementById("event-details")
+                    .classList.add("active");
+
+                if (selectedEvent.availableSeats <= 0) {
+                    document.getElementById("no-seats-message").style.display =
+                        "block";
+                    document.getElementById("reservation-form").style.display =
+                        "none";
+                } else {
+                    document.getElementById("no-seats-message").style.display =
+                        "none";
+                    document.getElementById("reservation-form").style.display =
+                        "block";
+                }
+            }
+
+            // Submit Reservation
+            document
+                .getElementById("reservation-form")
+                .addEventListener("submit", async function (e) {
+                    e.preventDefault();
+
+                    if (!selectedEvent) {
+                        showError("Please select an event first");
+                        return;
+                    }
+
+                    const formData = new FormData(this);
+                    const data = {
+                        name: formData.get("name"),
+                        email: formData.get("email"),
+                        phone: formData.get("phone"),
+                    };
+
+                    const submitBtn = document.getElementById("submit-btn");
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = "Processing...";
+
+                    try {
+                        const response = await fetch(
+                            `/api/events/${selectedEvent.id}/reservations`,
+                            {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify(data),
+                            },
+                        );
+
+                        const result = await response.json();
+
+                        if (!response.ok) {
+                            throw new Error(
+                                result.error || "Reservation error",
+                            );
+                        }
+
+                        // Show success message
+                        const successDiv = document.createElement("div");
+                        successDiv.className = "success";
+                        successDiv.innerHTML = `
+                    <strong>Reservation Confirmed!</strong><br>
+                    A confirmation email has been sent to ${data.email}
+                `;
+
+                        document.getElementById("reservation-form").innerHTML =
+                            "";
+                        document
+                            .getElementById("reservation-form")
+                            .appendChild(successDiv);
+                        document
+                            .getElementById("event-details")
+                            .classList.remove("active");
+                    } catch (error) {
+                        console.error("Error:", error);
+                        showError(error.message);
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = "Confirm Reservation";
+                    }
+                });
+
+            // Reset Form
+            document
+                .getElementById("cancel-btn")
+                .addEventListener("click", function () {
+                    document.getElementById("reservation-form").reset();
+                    document.getElementById("event-select").value = "";
+                    document
+                        .getElementById("event-details")
+                        .classList.remove("active");
+                    document.getElementById("no-seats-message").style.display =
+                        "none";
+                    selectedEvent = null;
+                });
+
+            // Error Handler
+            function showError(message) {
+                const errorDiv = document.getElementById("error");
+                errorDiv.textContent = message;
+                errorDiv.style.display = "block";
+                setTimeout(() => {
+                    errorDiv.style.display = "none";
+                }, 5000);
+            }
+
+            // Initialize
+            document.addEventListener("DOMContentLoaded", loadEvents);
+        </script>
+    </body>
+</html>

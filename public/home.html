@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eventize - Premium Event Management Platform</title>
+    <title>Eventize - Premium Event Management</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -16,344 +16,339 @@
             --navy: #0f172a;
             --navy-light: #1e293b;
             --gold: #c8a882;
-            --cream: #faf8f5;
+            --cream: #f5f0eb;
             --gray: #64748b;
             --white: #ffffff;
+            --teal: #4a9b7f;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--cream);
+            background: linear-gradient(135deg, var(--cream) 0%, #faf8f5 100%);
             color: var(--navy);
             line-height: 1.6;
+            min-height: 100vh;
         }
 
         /* ===== NAVBAR ===== */
         .navbar {
-            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
-            box-shadow: 0 8px 32px rgba(15, 23, 42, 0.15);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--cream) 0%, #faf8f5 100%);
+            padding: 1.5rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(15, 23, 42, 0.08);
         }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            text-decoration: none;
-            transition: transform 0.3s ease;
-        }
-
-        .logo-container:hover {
-            transform: scale(1.05);
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(200, 168, 130, 0.2);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logo-svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        .logo-text {
+        .logo {
             font-family: 'Playfair Display', serif;
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--gold) 0%, #e8c4b0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--navy);
+            text-decoration: none;
+            letter-spacing: 1px;
         }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 3rem;
             align-items: center;
         }
 
         .nav-link {
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--gray);
             text-decoration: none;
             font-weight: 500;
             font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             transition: color 0.3s;
         }
 
         .nav-link:hover {
-            color: var(--gold);
+            color: var(--teal);
         }
 
-        .nav-btn {
-            padding: 0.6rem 1.5rem;
-            background: linear-gradient(135deg, var(--gold) 0%, #e8c4b0 100%);
-            color: var(--navy);
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
+        .nav-link.admin {
+            color: var(--teal);
         }
 
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(200, 168, 130, 0.3);
-        }
-
-        /* Hero Section */
+        /* ===== HERO SECTION ===== */
         .hero {
-            margin-top: 90px;
-            padding: 6rem 2rem 4rem;
-            text-align: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 4rem;
             position: relative;
-            overflow: hidden;
         }
 
         .hero::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80%;
-            height: 100%;
-            background: radial-gradient(ellipse at center, rgba(200, 168, 130, 0.08) 0%, transparent 70%);
+            width: 250px;
+            height: 250px;
+            background: rgba(74, 155, 127, 0.08);
+            border-radius: 50%;
+            left: -100px;
+            top: 100px;
             z-index: 0;
         }
 
-        .hero-content {
-            max-width: 900px;
-            margin: 0 auto;
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(200, 168, 130, 0.08);
+            border-radius: 50%;
+            right: -50px;
+            bottom: 50px;
+            z-index: 0;
+        }
+
+        .hero-left {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-circle {
+            width: 380px;
+            height: 380px;
+            border-radius: 50%;
+            border: 12px solid var(--gold);
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(15, 23, 42, 0.15);
+            position: relative;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 120px;
+            animation: bounce 3s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .circle-sm {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--teal);
+        }
+
+        .circle-sm:nth-child(1) {
+            width: 20px;
+            height: 20px;
+            left: -40px;
+            top: 80px;
+            opacity: 0.6;
+        }
+
+        .circle-sm:nth-child(2) {
+            width: 140px;
+            height: 140px;
+            left: -80px;
+            bottom: 100px;
+            opacity: 0.05;
+        }
+
+        .circle-sm:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            right: -80px;
+            top: 150px;
+            opacity: 0.08;
+            background: var(--gold);
+        }
+
+        .event-badge {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            background: var(--teal);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            right: -30px;
+            top: -30px;
+            box-shadow: 0 10px 30px rgba(74, 155, 127, 0.2);
+        }
+
+        .event-badge span {
+            display: block;
+        }
+
+        .event-badge .small {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .hero-right {
             position: relative;
             z-index: 1;
         }
 
         .hero-subtitle {
-            color: var(--gold);
+            color: var(--gray);
             font-size: 0.95rem;
-            font-weight: 600;
+            font-weight: 500;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
         }
 
         .hero-title {
             font-family: 'Playfair Display', serif;
-            font-size: 4rem;
+            font-size: 3.5rem;
             font-weight: 700;
             color: var(--navy);
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            margin-bottom: 2rem;
             letter-spacing: -1px;
         }
 
+        .hero-title .highlight {
+            color: var(--teal);
+        }
+
         .hero-description {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             color: var(--gray);
             line-height: 1.8;
             margin-bottom: 3rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         .hero-buttons {
             display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        /* Buttons */
-        .btn {
-            padding: 1rem 2.5rem;
-            font-size: 1rem;
-            font-weight: 600;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            display: inline-block;
-            cursor: pointer;
-            border: none;
+            gap: 2rem;
+            align-items: center;
         }
 
         .btn-primary {
+            padding: 1rem 2.5rem;
             background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
-            color: var(--white);
-            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.20);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(15, 23, 42, 0.25);
         }
 
-        .btn-secondary {
-            background: transparent;
+        .btn-link {
+            color: var(--teal);
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        .btn-link:hover {
             color: var(--navy);
-            border: 2px solid var(--navy);
         }
 
-        .btn-secondary:hover {
-            background: var(--navy);
-            color: var(--white);
-        }
-
-        /* Features Section */
-        .features {
-            padding: 5rem 2rem;
+        /* ===== INFO SECTION ===== */
+        .info-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
             background: var(--white);
         }
 
-        .features-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .features-header {
+        .info-header {
             text-align: center;
             margin-bottom: 4rem;
         }
 
-        .features-label {
-            color: var(--gold);
+        .info-label {
+            color: var(--teal);
             font-size: 0.9rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             margin-bottom: 1rem;
+            display: block;
         }
 
-        .features-title {
+        .info-title {
             font-family: 'Playfair Display', serif;
             font-size: 2.75rem;
             color: var(--navy);
             margin-bottom: 1rem;
         }
 
-        .features-grid {
+        .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2.5rem;
         }
 
-        .feature-card {
-            background: var(--cream);
+        .info-card {
+            background: linear-gradient(135deg, var(--cream) 0%, #faf8f5 100%);
             padding: 2.5rem;
             border-radius: 12px;
+            border: 1px solid rgba(15, 23, 42, 0.08);
             transition: all 0.3s ease;
-            border: 1px solid rgba(15, 23, 42, 0.05);
         }
 
-        .feature-card:hover {
+        .info-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
         }
 
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
+        .info-card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
         }
 
-        .feature-title {
+        .info-card-title {
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--navy);
             margin-bottom: 1rem;
         }
 
-        .feature-description {
+        .info-card-text {
             color: var(--gray);
-            line-height: 1.7;
+            line-height: 1.8;
         }
 
-        /* CTA Section */
-        .cta {
-            padding: 6rem 2rem;
-            background: var(--navy);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background:
-                radial-gradient(circle at 20% 50%, rgba(200, 168, 130, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 50%, rgba(200, 168, 130, 0.1) 0%, transparent 50%);
-        }
-
-        .cta-content {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .cta-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            color: var(--white);
-            margin-bottom: 1.5rem;
-        }
-
-        .cta-description {
-            font-size: 1.25rem;
-            color: rgba(255, 255, 255, 0.85);
-            margin-bottom: 2.5rem;
-            line-height: 1.7;
-        }
-
-        .btn-cta {
-            background: var(--gold);
-            color: var(--navy);
-            font-weight: 700;
-        }
-
-        .btn-cta:hover {
-            background: var(--white);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(200, 168, 130, 0.3);
-        }
-
-        /* Footer */
+        /* ===== FOOTER ===== */
         .footer {
-            background: var(--navy-light);
-            color: rgba(255, 255, 255, 0.7);
-            padding: 3rem 2rem 2rem;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 4rem 2rem 2rem;
+            margin-top: 6rem;
         }
 
         .footer-container {
@@ -388,6 +383,8 @@
             color: var(--white);
             font-weight: 600;
             margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .footer-links {
@@ -415,27 +412,83 @@
             color: rgba(255, 255, 255, 0.5);
         }
 
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 3rem 2rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .image-circle {
+                width: 300px;
+                height: 300px;
+            }
+
+            .nav-links {
+                gap: 1.5rem;
+            }
+
             .footer-container {
                 grid-template-columns: 1fr 1fr;
             }
         }
 
         @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
+            .navbar {
+                padding: 1rem;
             }
 
-            .features-grid {
-                grid-template-columns: 1fr;
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .hero {
+                padding: 2rem 1rem;
+                gap: 2rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 0.85rem;
+            }
+
+            .image-circle {
+                width: 250px;
+                height: 250px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .btn-primary {
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-link {
+                font-size: 0.75rem;
+            }
+
+            .info-section {
+                padding: 4rem 1rem;
             }
 
             .footer-container {
                 grid-template-columns: 1fr;
             }
 
-            .nav-links {
-                display: none;
+            .info-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -443,85 +496,91 @@
 <body>
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="nav-container">
-            <a href="home.html" class="logo-container">
-                <span class="logo-icon">
-                    <svg class="logo-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="40" height="40" rx="10" fill="rgba(200, 168, 130, 0.2)"/>
-                        <path d="M20 10L23 17H27L22 21L24 28L20 24L16 28L18 21L13 17H17L20 10Z" fill="#c8a882"/>
-                    </svg>
-                </span>
-                <span class="logo-text">Eventize</span>
-            </a>
-            <div class="nav-links">
-                <a href="#features" class="nav-link">✨ Features</a>
-                <a href="index.html" class="nav-link">📋 Events</a>
-                <a href="login.html" class="nav-btn">🔐 Login</a>
-            </div>
+        <a href="home.html" class="logo">⭐ EVENTIZE</a>
+        <div class="nav-links">
+            <a href="#home" class="nav-link">Home</a>
+            <a href="index.html" class="nav-link">Events</a>
+            <a href="booking.html" class="nav-link">Book</a>
+            <a href="login.html" class="nav-link admin">Admin</a>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
+    <section class="hero" id="home">
+        <!-- Left side with circular image -->
+        <div class="hero-left">
+            <div class="circle-sm"></div>
+            <div class="circle-sm"></div>
+            <div class="circle-sm"></div>
+
+            <div class="image-circle">
+                🎉
+                <div class="event-badge">
+                    <span>Book</span>
+                    <span class="small">discover our<br>exclusive events</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right side with content -->
+        <div class="hero-right">
             <p class="hero-subtitle">Premium Event Management</p>
-            <h1 class="hero-title">Create Unforgettable Events with Elegance</h1>
+            <h1 class="hero-title">Experience <span class="highlight">Unforgettable Moments</span></h1>
+
             <p class="hero-description">
-                A sophisticated platform designed for modern event organizers and attendees.
-                Experience seamless event management with powerful tools and elegant design.
+                Discover a curated selection of exceptional events near you. Concerts, conferences, workshops, shows... Book your seat in just a few clicks and create unforgettable memories.
             </p>
+
             <div class="hero-buttons">
-                <a href="index.html" class="btn btn-primary">📋 Browse Events</a>
-                <a href="login.html" class="btn btn-secondary">👤 Admin Access</a>
+                <a href="index.html" class="btn-primary">Browse Events Now</a>
+                <button onclick="document.getElementById('info').scrollIntoView({behavior: 'smooth'})" class="btn-link">Learn More →</button>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features" id="features">
-        <div class="features-container">
-            <div class="features-header">
-                <p class="features-label">What We Offer</p>
-                <h2 class="features-title">Everything You Need</h2>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3 class="feature-title">Smart Booking</h3>
-                    <p class="feature-description">
-                        Effortlessly discover and book your favorite events with our intuitive interface.
-                        Instant confirmations and secure transactions guaranteed.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3 class="feature-title">Admin Dashboard</h3>
-                    <p class="feature-description">
-                        Comprehensive dashboard for event organizers. Manage events, track reservations,
-                        and analyze attendance with powerful tools.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
-                    <h3 class="feature-title">Secure Authentication</h3>
-                    <p class="feature-description">
-                        Protected by WebAuthn technology with passwordless authentication.
-                        Your data security is our top priority.
-                    </p>
-                </div>
-            </div>
+    <!-- Info Section -->
+    <section class="info-section" id="info">
+        <div class="info-header">
+            <span class="info-label">Why Choose Us</span>
+            <h2 class="info-title">The Eventize Advantage</h2>
         </div>
-    </section>
 
-    <!-- CTA Section -->
-    <section class="cta">
-        <div class="cta-content">
-            <h2 class="cta-title">Ready to Get Started?</h2>
-            <p class="cta-description">
-                Join thousands of event organizers and attendees who trust Eventize
-                for their event management needs.
-            </p>
-            <a href="index.html" class="btn btn-cta">🚀 Explore Events Now</a>
+        <div class="info-grid">
+            <div class="info-card">
+                <span class="info-card-icon">🎯</span>
+                <h3 class="info-card-title">Easy Discovery</h3>
+                <p class="info-card-text">Find events that match your interests effortlessly. Our intelligent search and filtering help you discover exactly what you're looking for in seconds.</p>
+            </div>
+
+            <div class="info-card">
+                <span class="info-card-icon">⚡</span>
+                <h3 class="info-card-title">Quick Booking</h3>
+                <p class="info-card-text">Secure your spot in just a few clicks. Our streamlined booking process takes less than a minute, with instant confirmation sent to your email.</p>
+            </div>
+
+            <div class="info-card">
+                <span class="info-card-icon">🔒</span>
+                <h3 class="info-card-title">Secure Transactions</h3>
+                <p class="info-card-text">Your data is protected with enterprise-grade security. We use industry-leading encryption to keep your personal and payment information safe.</p>
+            </div>
+
+            <div class="info-card">
+                <span class="info-card-icon">📱</span>
+                <h3 class="info-card-title">Modern Platform</h3>
+                <p class="info-card-text">Access Eventize from any device. Our platform is fully responsive and optimized for desktop, tablet, and mobile phones.</p>
+            </div>
+
+            <div class="info-card">
+                <span class="info-card-icon">💬</span>
+                <h3 class="info-card-title">Expert Support</h3>
+                <p class="info-card-text">Our dedicated support team is always ready to help. Get answers to your questions quickly and efficiently whenever you need us.</p>
+            </div>
+
+            <div class="info-card">
+                <span class="info-card-icon">🌟</span>
+                <h3 class="info-card-title">Curated Events</h3>
+                <p class="info-card-text">Every event on our platform is carefully selected and verified. We ensure quality and authenticity in every listing.</p>
+            </div>
         </div>
     </section>
 
@@ -530,24 +589,19 @@
         <div class="footer-container">
             <div>
                 <div class="footer-brand">
-                    <span class="logo-icon" style="background: rgba(200, 168, 130, 0.3);">
-                        <svg class="logo-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="40" height="40" rx="10" fill="rgba(200, 168, 130, 0.2)"/>
-                            <path d="M20 10L23 17H27L22 21L24 28L20 24L16 28L18 21L13 17H17L20 10Z" fill="#c8a882"/>
-                        </svg>
-                    </span>
-                    <span class="footer-brand-text">Eventize</span>
+                    <span>⭐</span>
+                    <span class="footer-brand-text">EVENTIZE</span>
                 </div>
                 <p class="footer-description">
-                    Premium event management platform designed for modern organizers and attendees.
+                    The premier event management platform designed for modern attendees and organizers. Discover, book, and create unforgettable experiences.
                 </p>
             </div>
             <div>
                 <h4 class="footer-title">Platform</h4>
                 <ul class="footer-links">
                     <li><a href="index.html">Browse Events</a></li>
-                    <li><a href="login.html">Login</a></li>
-                    <li><a href="admin.html">Admin</a></li>
+                    <li><a href="login.html">Book Tickets</a></li>
+                    <li><a href="login.html">Admin Panel</a></li>
                 </ul>
             </div>
             <div>
@@ -555,7 +609,7 @@
                 <ul class="footer-links">
                     <li><a href="#about">About Us</a></li>
                     <li><a href="#contact">Contact</a></li>
-                    <li><a href="#careers">Careers</a></li>
+                    <li><a href="#press">Press Kit</a></li>
                 </ul>
             </div>
             <div>
@@ -568,8 +622,21 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Eventize. All rights reserved.</p>
+            <p>&copy; 2026 Eventize. All rights reserved. Premium event management platform.</p>
         </div>
     </footer>
+
+    <script>
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
 </body>
 </html>

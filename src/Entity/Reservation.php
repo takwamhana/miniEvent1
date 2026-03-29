@@ -107,7 +107,7 @@ class Reservation
             'name' => $this->name,
             'email' => $this->email,
             'phone' => $this->phone,
-            'createdAt' => $this->createdAt?->format('Y-m-d H:i:s'),
+            'created_at' => $this->createdAt?->format('Y-m-d H:i:s'),
             'eventId' => $this->event?->getId(),
         ];
     }

@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Eventize - Détails de l'événement</title>
+        <title>Eventize - Event Details</title>
         <link
             href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap"
             rel="stylesheet"
@@ -22,6 +22,7 @@
                 --cream: #faf8f5;
                 --gray: #64748b;
                 --white: #ffffff;
+                --teal: #4a9b7f;
             }
 
             body {
@@ -33,94 +34,44 @@
 
             /* Navigation */
             .navbar {
-                background: linear-gradient(
-                    135deg,
-                    var(--navy) 0%,
-                    var(--navy-light) 100%
-                );
-                backdrop-filter: blur(10px);
-                padding: 1.25rem 0;
-                box-shadow: 0 8px 32px rgba(15, 23, 42, 0.15);
-                position: fixed;
-                width: 100%;
-                top: 0;
-                z-index: 1000;
-            }
-
-            .nav-container {
-                max-width: 1400px;
-                margin: 0 auto;
-                padding: 0 2rem;
+                background: linear-gradient(135deg, var(--cream) 0%, #faf8f5 100%);
+                padding: 1.5rem 2rem;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+                border-bottom: 1px solid rgba(15, 23, 42, 0.08);
             }
 
             .logo-container {
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
-                text-decoration: none;
-                transition: transform 0.3s ease;
-            }
-
-            .logo-container:hover {
-                transform: scale(1.05);
-            }
-
-            .logo-svg {
-                width: 40px;
-                height: 40px;
-                background: rgba(200, 168, 130, 0.2);
-                border-radius: 10px;
-                padding: 4px;
-            }
-
-            .logo-text {
-                font-family: "Playfair Display", serif;
-                font-size: 1.75rem;
+                font-family: 'Playfair Display', serif;
+                font-size: 1.5rem;
                 font-weight: 700;
-                background: linear-gradient(to right, #c8a882, #e8c4b0);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-                letter-spacing: -0.5px;
+                color: var(--navy);
+                text-decoration: none;
+                letter-spacing: 1px;
             }
 
             .nav-links {
                 display: flex;
-                gap: 2rem;
+                gap: 3rem;
                 align-items: center;
             }
 
             .nav-link {
-                color: rgba(255, 255, 255, 0.8);
+                color: var(--gray);
                 text-decoration: none;
                 font-weight: 500;
                 font-size: 0.95rem;
-                transition: color 0.3s ease;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                transition: color 0.3s;
             }
 
             .nav-link:hover {
-                color: var(--gold);
-            }
-
-            .nav-btn {
-                padding: 0.7rem 1.8rem;
-                background: linear-gradient(135deg, #c8a882 0%, #d4b8a0 100%);
-                color: var(--navy);
-                text-decoration: none;
-                border-radius: 8px;
-                font-weight: 600;
-                font-size: 0.95rem;
-                transition: all 0.3s ease;
-                box-shadow: 0 4px 12px rgba(200, 168, 130, 0.2);
-            }
-
-            .nav-btn:hover {
-                background: linear-gradient(135deg, #d4b8a0 0%, #e8c4b0 100%);
-                transform: translateY(-2px);
-                box-shadow: 0 6px 20px rgba(200, 168, 130, 0.3);
+                color: var(--teal);
             }
 
             /* Main Content */
@@ -131,7 +82,6 @@
             }
 
             .page-content {
-                margin-top: 90px;
                 padding: 3rem 0;
             }
 
@@ -381,32 +331,12 @@
     <body>
         <!-- Navigation -->
         <nav class="navbar">
-            <div class="nav-container">
-                <a href="home.html" class="logo-container">
-                    <svg
-                        class="logo-svg"
-                        viewBox="0 0 40 40"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <rect
-                            width="40"
-                            height="40"
-                            rx="10"
-                            fill="rgba(200, 168, 130, 0.2)"
-                        />
-                        <path
-                            d="M20 10L23 17H27L22 21L24 28L20 24L16 28L18 21L13 17H17L20 10Z"
-                            fill="#c8a882"
-                        />
-                    </svg>
-                    <span class="logo-text">Eventize</span>
-                </a>
-                <div class="nav-links">
-                    <a href="home.html" class="nav-link">🏠 Home</a>
-                    <a href="index.html" class="nav-link">📋 Events</a>
-                    <a href="login.html" class="nav-btn">🔐 Login</a>
-                </div>
+            <a href="home.html" class="logo-container">⭐ EVENTIZE</a>
+            <div class="nav-links">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="index.html" class="nav-link">Events</a>
+                <a href="booking.html" class="nav-link">Book</a>
+                <a href="login.html" class="nav-link">Admin</a>
             </div>
         </nav>
 
@@ -422,10 +352,10 @@
                 >
                     <path d="M19 12H5M12 19l-7-7 7-7" />
                 </svg>
-                Retour aux événements
+                Back to Events
             </a>
 
-            <div id="loading" class="loading">Chargement de l'événement...</div>
+            <div id="loading" class="loading">Loading event...</div>
             <div id="error" class="error" style="display: none"></div>
 
             <div id="event-container" style="display: none">
@@ -484,7 +414,7 @@
                                     </div>
                                 </div>
                                 <div class="meta-item">
-                                    <div class="meta-label">Lieu</div>
+                                    <div class="meta-label">Location</div>
                                     <div class="meta-value">
                                         <svg
                                             class="meta-icon"
@@ -509,7 +439,7 @@
                                 </div>
                                 <div class="meta-item">
                                     <div class="meta-label">
-                                        Places disponibles
+                                        Available Seats
                                     </div>
                                     <div class="meta-value">
                                         <span
@@ -528,19 +458,18 @@
 
                     <!-- Reservation Form -->
                     <div class="reservation-form">
-                        <h3 class="form-title">Réserver une place</h3>
+                        <h3 class="form-title">Book a Seat</h3>
                         <div
                             id="no-seats-message"
                             class="no-seats"
                             style="display: none"
                         >
-                            Désolé, il n'y a plus de places disponibles pour cet
-                            événement.
+                            Sorry, there are no more seats available for this event.
                         </div>
                         <form id="reservation-form">
                             <div class="form-group">
                                 <label class="form-label" for="name"
-                                    >Nom complet *</label
+                                    >Full Name *</label
                                 >
                                 <input
                                     type="text"
@@ -564,7 +493,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="phone"
-                                    >Téléphone *</label
+                                    >Phone *</label
                                 >
                                 <input
                                     type="tel"
@@ -575,7 +504,7 @@
                                 />
                             </div>
                             <button type="submit" class="btn" id="submit-btn">
-                                Confirmer la réservation
+                                Confirm Reservation
                             </button>
                         </form>
                     </div>
@@ -591,7 +520,7 @@
                 const eventId = urlParams.get("id");
 
                 if (!eventId) {
-                    showError("ID d'événement manquant");
+                    showError("Event ID missing");
                     return;
                 }
 
@@ -599,7 +528,7 @@
                     const response = await fetch(`/api/events/${eventId}`);
 
                     if (!response.ok) {
-                        throw new Error("Événement non trouvé");
+                        throw new Error("Event not found");
                     }
 
                     const event = await response.json();
@@ -620,7 +549,7 @@
                     event.title;
                 document.getElementById("event-date").textContent = new Date(
                     event.date,
-                ).toLocaleDateString("fr-FR", {
+                ).toLocaleDateString("en-US", {
                     day: "numeric",
                     month: "long",
                     year: "numeric",
@@ -663,7 +592,7 @@
 
                 const submitBtn = document.getElementById("submit-btn");
                 submitBtn.disabled = true;
-                submitBtn.textContent = "Réservation en cours...";
+                submitBtn.textContent = "Processing reservation...";
 
                 try {
                     const response = await fetch(
@@ -681,7 +610,7 @@
 
                     if (!response.ok) {
                         throw new Error(
-                            result.error || "Erreur lors de la réservation",
+                            result.error || "Reservation error",
                         );
                     }
 
@@ -689,7 +618,7 @@
                     const successDiv = document.createElement("div");
                     successDiv.className = "success";
                     successDiv.textContent =
-                        "Votre réservation a été confirmée ! Un email de confirmation vous a été envoyé.";
+                        "Your reservation has been confirmed! A confirmation email has been sent to you.";
 
                     document.querySelector(".reservation-form").innerHTML = "";
                     document
@@ -699,7 +628,7 @@
                     console.error("Error:", error);
                     showError(error.message);
                     submitBtn.disabled = false;
-                    submitBtn.textContent = "Confirmer la réservation";
+                    submitBtn.textContent = "Confirm Reservation";
                 }
             }
 

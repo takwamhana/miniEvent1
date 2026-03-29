@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,6 +22,7 @@
                 --cream: #faf8f5;
                 --gray: #64748b;
                 --white: #ffffff;
+                --teal: #4a9b7f;
             }
 
             body {
@@ -36,94 +37,44 @@
 
             /* Navigation */
             .navbar {
-                background: linear-gradient(
-                    135deg,
-                    var(--navy) 0%,
-                    var(--navy-light) 100%
-                );
-                backdrop-filter: blur(10px);
-                padding: 1.25rem 0;
-                box-shadow: 0 8px 32px rgba(15, 23, 42, 0.15);
-                position: fixed;
-                width: 100%;
-                top: 0;
-                z-index: 1000;
-            }
-
-            .nav-container {
-                max-width: 1400px;
-                margin: 0 auto;
-                padding: 0 2rem;
+                background: linear-gradient(135deg, var(--cream) 0%, #faf8f5 100%);
+                padding: 1.5rem 2rem;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+                border-bottom: 1px solid rgba(15, 23, 42, 0.08);
             }
 
             .logo-container {
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
-                text-decoration: none;
-                transition: transform 0.3s ease;
-            }
-
-            .logo-container:hover {
-                transform: scale(1.05);
-            }
-
-            .logo-svg {
-                width: 40px;
-                height: 40px;
-                background: rgba(200, 168, 130, 0.2);
-                border-radius: 10px;
-                padding: 4px;
-            }
-
-            .logo-text {
-                font-family: "Playfair Display", serif;
-                font-size: 1.75rem;
+                font-family: 'Playfair Display', serif;
+                font-size: 1.5rem;
                 font-weight: 700;
-                background: linear-gradient(to right, #c8a882, #e8c4b0);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-                letter-spacing: -0.5px;
+                color: var(--navy);
+                text-decoration: none;
+                letter-spacing: 1px;
             }
 
             .nav-links {
                 display: flex;
-                gap: 2rem;
+                gap: 3rem;
                 align-items: center;
             }
 
             .nav-link {
-                color: rgba(255, 255, 255, 0.8);
+                color: var(--gray);
                 text-decoration: none;
                 font-weight: 500;
                 font-size: 0.95rem;
-                transition: color 0.3s ease;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                transition: color 0.3s;
             }
 
             .nav-link:hover {
-                color: var(--gold);
-            }
-
-            .nav-btn {
-                padding: 0.7rem 1.8rem;
-                background: linear-gradient(135deg, #c8a882 0%, #d4b8a0 100%);
-                color: var(--navy);
-                text-decoration: none;
-                border-radius: 8px;
-                font-weight: 600;
-                font-size: 0.95rem;
-                transition: all 0.3s ease;
-                box-shadow: 0 4px 12px rgba(200, 168, 130, 0.2);
-            }
-
-            .nav-btn:hover {
-                background: linear-gradient(135deg, #d4b8a0 0%, #e8c4b0 100%);
-                transform: translateY(-2px);
-                box-shadow: 0 6px 20px rgba(200, 168, 130, 0.3);
+                color: var(--teal);
             }
 
             /* Login Container */
@@ -332,31 +283,11 @@
     <body>
         <!-- Navigation -->
         <nav class="navbar">
-            <div class="nav-container">
-                <a href="home.html" class="logo-container">
-                    <svg
-                        class="logo-svg"
-                        viewBox="0 0 40 40"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <rect
-                            width="40"
-                            height="40"
-                            rx="10"
-                            fill="rgba(200, 168, 130, 0.2)"
-                        />
-                        <path
-                            d="M20 10L23 17H27L22 21L24 28L20 24L16 28L18 21L13 17H17L20 10Z"
-                            fill="#c8a882"
-                        />
-                    </svg>
-                    <span class="logo-text">Eventize</span>
-                </a>
-                <div class="nav-links">
-                    <a href="home.html" class="nav-link">🏠 Home</a>
-                    <a href="index.html" class="nav-link">📋 Events</a>
-                </div>
+            <a href="home.html" class="logo-container">⭐ EVENTIZE</a>
+            <div class="nav-links">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="index.html" class="nav-link">Events</a>
+                <a href="booking.html" class="nav-link">Book</a>
             </div>
         </nav>
 
@@ -368,15 +299,6 @@
                 </div>
 
                 <div class="login-body">
-                    <div class="tabs">
-                        <button class="tab active" onclick="switchTab('login')">
-                            Login
-                        </button>
-                        <button class="tab" onclick="switchTab('register')">
-                            Register
-                        </button>
-                    </div>
-
                     <!-- Login Tab -->
                     <div id="login-tab" class="tab-content active">
                         <div class="info">
@@ -435,64 +357,6 @@
                         </form>
                     </div>
 
-                    <!-- Register Tab -->
-                    <div id="register-tab" class="tab-content">
-                        <div class="info">
-                            <svg
-                                width="20"
-                                height="20"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                            >
-                                <rect
-                                    x="3"
-                                    y="11"
-                                    width="18"
-                                    height="11"
-                                    rx="2"
-                                    ry="2"
-                                ></rect>
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                            </svg>
-                            <span
-                                >Create a secure account using your fingerprint,
-                                Face ID, or security key.</span
-                            >
-                        </div>
-
-                        <div
-                            id="register-error"
-                            class="error"
-                            style="display: none"
-                        ></div>
-                        <div
-                            id="register-success"
-                            class="success"
-                            style="display: none"
-                        ></div>
-
-                        <form id="register-form">
-                            <div class="form-group">
-                                <label class="form-label" for="register-email"
-                                    >Email</label
-                                >
-                                <input
-                                    type="email"
-                                    id="register-email"
-                                    name="email"
-                                    class="form-input"
-                                    required
-                                    placeholder="you@example.com"
-                                />
-                            </div>
-                            <button type="submit" class="btn" id="register-btn">
-                                Create Account with Passkey
-                            </button>
-                        </form>
-                    </div>
-
                     <div class="back-link">
                         <a href="index.html">← Back to Events</a>
                     </div>
@@ -501,34 +365,6 @@
         </div>
 
         <script>
-            // Tab switching
-            function switchTab(tabName) {
-                // Remove active class from all tabs and contents
-                document
-                    .querySelectorAll(".tab")
-                    .forEach((tab) => tab.classList.remove("active"));
-                document
-                    .querySelectorAll(".tab-content")
-                    .forEach((content) => content.classList.remove("active"));
-
-                // Add active class to selected tab and content
-                if (tabName === "login") {
-                    document
-                        .querySelectorAll(".tab")[0]
-                        .classList.add("active");
-                    document
-                        .getElementById("login-tab")
-                        .classList.add("active");
-                } else {
-                    document
-                        .querySelectorAll(".tab")[1]
-                        .classList.add("active");
-                    document
-                        .getElementById("register-tab")
-                        .classList.add("active");
-                }
-            }
-
             // Show error message
             function showError(elementId, message) {
                 const element = document.getElementById(elementId);
@@ -555,23 +391,11 @@
                         '<span class="loading"></span>Connecting...';
                 } else {
                     button.disabled = false;
-                    button.innerHTML =
-                        buttonId === "login-btn"
-                            ? "Login with Passkey"
-                            : "Create Account with Passkey";
+                    button.innerHTML = "Login with Passkey";
                 }
             }
 
             // Mock WebAuthn functions (in a real app, these would use the WebAuthn API)
-            async function mockWebAuthnRegistration(email) {
-                // Simulate WebAuthn registration
-                await new Promise((resolve) => setTimeout(resolve, 2000));
-                return {
-                    credentialId: "mock-credential-id-" + Date.now(),
-                    publicKey: "mock-public-key",
-                };
-            }
-
             async function mockWebAuthnLogin(email) {
                 // Simulate WebAuthn login
                 await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -579,88 +403,6 @@
                     credentialId: "mock-credential-id",
                     assertion: "mock-assertion",
                 };
-            }
-
-            // Registration
-            async function registerPasskey(e) {
-                e.preventDefault();
-
-                const email = document.getElementById("register-email").value;
-                setLoading("register-btn", true);
-
-                try {
-                    // Step 1: Get registration options
-                    const optionsResponse = await fetch(
-                        "/api/auth/register/options",
-                        {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({ email }),
-                        },
-                    );
-
-                    if (!optionsResponse.ok) {
-                        throw new Error(
-                            "Erreur lors de l'obtention des options d'inscription",
-                        );
-                    }
-
-                    const options = await optionsResponse.json();
-
-                    // Step 2: Simulate WebAuthn registration
-                    const credential = await mockWebAuthnRegistration(email);
-
-                    // Step 3: Verify registration
-                    const verifyResponse = await fetch(
-                        "/api/auth/register/verify",
-                        {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                                email,
-                                credentialId: credential.credentialId,
-                                publicKey: credential.publicKey,
-                                ...credential,
-                            }),
-                        },
-                    );
-
-                    if (!verifyResponse.ok) {
-                        throw new Error(
-                            "Erreur lors de la vérification de l'inscription",
-                        );
-                    }
-
-                    const result = await verifyResponse.json();
-
-                    // Store tokens
-                    localStorage.setItem("token", result.token);
-                    localStorage.setItem("refresh_token", result.refresh_token);
-                    localStorage.setItem("user", JSON.stringify(result.user));
-
-                    showSuccess(
-                        "register-success",
-                        "Compte créé avec succès ! Redirection...",
-                    );
-
-                    // Redirect to admin page if user is admin, otherwise to home
-                    setTimeout(() => {
-                        if (result.user.roles.includes("ROLE_ADMIN")) {
-                            window.location.href = "admin.html";
-                        } else {
-                            window.location.href = "index.html";
-                        }
-                    }, 2000);
-                } catch (error) {
-                    console.error("Registration error:", error);
-                    showError("register-error", error.message);
-                } finally {
-                    setLoading("register-btn", false);
-                }
             }
 
             // Login
@@ -685,7 +427,7 @@
 
                     if (!optionsResponse.ok) {
                         throw new Error(
-                            "Erreur lors de l'obtention des options de connexion",
+                            "Error getting login options",
                         );
                     }
 
@@ -713,7 +455,7 @@
 
                     if (!verifyResponse.ok) {
                         throw new Error(
-                            "Erreur lors de la vérification de la connexion",
+                            "Error verifying login",
                         );
                     }
 
@@ -726,7 +468,7 @@
 
                     showSuccess(
                         "login-success",
-                        "Connexion réussie ! Redirection...",
+                        "Login successful! Redirecting...",
                     );
 
                     // Redirect to admin page if user is admin, otherwise to home
@@ -747,9 +489,6 @@
 
             // Initialize
             document.addEventListener("DOMContentLoaded", () => {
-                document
-                    .getElementById("register-form")
-                    .addEventListener("submit", registerPasskey);
                 document
                     .getElementById("login-form")
                     .addEventListener("submit", loginWithPasskey);

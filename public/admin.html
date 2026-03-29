@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,6 +29,7 @@
                 --success: #10b981;
                 --danger: #ef4444;
                 --warning: #f59e0b;
+                --teal: #4a9b7f;
             }
 
             body {
@@ -50,22 +51,17 @@
 
             /* ===== NAVBAR ===== */
             .navbar {
-                background: linear-gradient(
-                    135deg,
-                    var(--navy) 0%,
-                    var(--navy-light) 100%
-                );
-                box-shadow: 0 8px 32px rgba(15, 23, 42, 0.15);
+                background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+                padding: 1.5rem 2rem;
                 position: sticky;
                 top: 0;
                 z-index: 1000;
-                backdrop-filter: blur(10px);
+                box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
             }
 
             .navbar-container {
                 max-width: 1400px;
                 margin: 0 auto;
-                padding: 1rem 2rem;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -76,7 +72,6 @@
                 align-items: center;
                 gap: 0.75rem;
                 text-decoration: none;
-                color: var(--white);
                 transition: transform 0.3s ease;
             }
 
@@ -84,33 +79,12 @@
                 transform: scale(1.05);
             }
 
-            .logo-icon {
-                width: 40px;
-                height: 40px;
-                background: rgba(200, 168, 130, 0.2);
-                border-radius: 10px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .logo-icon svg {
-                width: 24px;
-                height: 24px;
-            }
-
             .logo-text {
                 font-family: "Playfair Display", serif;
-                font-size: 1.75rem;
+                font-size: 1.5rem;
                 font-weight: 700;
-                background: linear-gradient(
-                    135deg,
-                    var(--gold) 0%,
-                    #e8c4b0 100%
-                );
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
+                color: var(--white);
+                letter-spacing: 1px;
             }
 
             .navbar-actions {
@@ -125,7 +99,6 @@
                 padding: 0.5rem 1rem;
                 background: rgba(255, 255, 255, 0.1);
                 border-radius: 8px;
-                backdrop-filter: blur(10px);
             }
 
             /* ===== CONTAINER ===== */
@@ -582,57 +555,194 @@
                 }
             }
         </style>
+        <style>
+            /* ===== EDIT MODAL ===== */
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 2000;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                animation: fadeIn 0.3s ease;
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+
+            .modal-content {
+                background-color: var(--white);
+                margin: 5% auto;
+                padding: 2rem;
+                border-radius: 16px;
+                width: 90%;
+                max-width: 500px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+                animation: slideDown 0.3s ease;
+            }
+
+            @keyframes slideDown {
+                from {
+                    transform: translateY(-50px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            .modal-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1.5rem;
+                padding-bottom: 1rem;
+                border-bottom: 2px solid rgba(200, 168, 130, 0.1);
+            }
+
+            .modal-header h2 {
+                margin: 0;
+                color: var(--navy);
+                font-size: 1.5rem;
+            }
+
+            .close-btn {
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                cursor: pointer;
+                color: var(--gray);
+                transition: color 0.3s;
+            }
+
+            .close-btn:hover {
+                color: var(--navy);
+            }
+
+            .modal-footer {
+                display: flex;
+                gap: 1rem;
+                margin-top: 2rem;
+                justify-content: flex-end;
+            }
+
+            /* ===== TOAST NOTIFICATION ===== */
+            .toast {
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                color: white;
+                padding: 1.25rem 1.5rem;
+                border-radius: 10px;
+                box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+                z-index: 3000;
+                animation: slideInUp 0.4s ease;
+                max-width: 400px;
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+            }
+
+            @keyframes slideInUp {
+                from {
+                    transform: translateY(100px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            .toast.error {
+                background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+                box-shadow: 0 8px 24px rgba(239, 68, 68, 0.3);
+            }
+        </style>
     </head>
     <body>
+        <!-- Edit Reservation Modal -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Edit Reservation</h2>
+                    <button class="close-btn" onclick="closeEditModal()">&times;</button>
+                </div>
+                <div id="modal-error" class="alert error" style="display: none;"></div>
+                <form id="edit-reservation-form">
+                    <div class="form-group">
+                        <label class="form-label" for="edit-res-name">Name *</label>
+                        <input
+                            type="text"
+                            id="edit-res-name"
+                            class="form-input"
+                            placeholder="Full name"
+                            required
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="edit-res-email">Email *</label>
+                        <input
+                            type="email"
+                            id="edit-res-email"
+                            class="form-input"
+                            placeholder="Email address"
+                            required
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="edit-res-phone">Phone *</label>
+                        <input
+                            type="tel"
+                            id="edit-res-phone"
+                            class="form-input"
+                            placeholder="Phone number"
+                            required
+                        />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="closeEditModal()">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <!-- Navigation Bar -->
         <nav class="navbar">
             <div class="navbar-container">
                 <a href="home.html" class="navbar-logo">
-                    <span class="logo-icon">
-                        <svg
-                            viewBox="0 0 40 40"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <rect
-                                width="40"
-                                height="40"
-                                rx="10"
-                                fill="rgba(200, 168, 130, 0.2)"
-                            />
-                            <path
-                                d="M20 10L23 17H27L22 21L24 28L20 24L16 28L18 21L13 17H17L20 10Z"
-                                fill="#c8a882"
-                            />
-                        </svg>
-                    </span>
-                    <span class="logo-text">Eventize</span>
+                    <span class="logo-text">⭐ EVENTIZE</span>
                 </a>
                 <div class="navbar-actions">
                     <span class="user-info" id="user-info"></span>
-                    <a href="index.html" class="btn btn-secondary btn-small"
-                        >📋 Events</a
-                    >
-                    <button onclick="logout()" class="btn btn-small">
-                        🚪 Logout
-                    </button>
+                    <a href="booking.html" class="btn btn-secondary btn-small">Book</a>
+                    <a href="index.html" class="btn btn-secondary btn-small">Events</a>
+                    <button onclick="logout()" class="btn btn-small">Logout</button>
                 </div>
             </div>
         </nav>
 
         <main class="container">
             <div id="loading" class="loading">
-                🔄 Verifying authentication...
+                Verifying authentication...
             </div>
             <div id="error" class="alert error" style="display: none"></div>
 
             <div id="admin-content" class="hidden">
                 <!-- Dashboard Header -->
                 <div class="dashboard-header">
-                    <h1>
-                        <span>📊</span>
-                        Admin Dashboard
-                    </h1>
+                    <h1>Admin Dashboard</h1>
                     <p>Manage your events and reservations with ease</p>
                 </div>
 
@@ -642,13 +752,13 @@
                         class="tab-btn active"
                         onclick="switchTab('create')"
                     >
-                        ➕ Create Event
+                        Create Event
                     </button>
                     <button class="tab-btn" onclick="switchTab('manage')">
-                        📋 Manage Events
+                        Manage Events
                     </button>
                     <button class="tab-btn" onclick="switchTab('reservations')">
-                        👥 Reservations
+                        Reservations
                     </button>
                 </div>
 
@@ -656,7 +766,6 @@
                 <div id="create" class="tab-content active">
                     <div class="card">
                         <div class="card-header">
-                            <span class="card-icon">✨</span>
                             <h2>Create New Event</h2>
                         </div>
                         <div
@@ -755,7 +864,7 @@
                                 />
                             </div>
                             <button type="submit" class="btn btn-primary">
-                                <span>✨</span> Create Event
+                                Create Event
                             </button>
                         </form>
                     </div>
@@ -765,7 +874,6 @@
                 <div id="manage" class="tab-content">
                     <div class="card">
                         <div class="card-header">
-                            <span class="card-icon">📋</span>
                             <h2>Events Management</h2>
                         </div>
                         <div
@@ -781,7 +889,6 @@
                 <div id="reservations" class="tab-content">
                     <div class="card">
                         <div class="card-header">
-                            <span class="card-icon">👥</span>
                             <h2>Reservations Management</h2>
                         </div>
                         <div class="form-group">
@@ -789,7 +896,7 @@
                                 >Select Event</label
                             >
                             <select id="event-select" class="form-input">
-                                <option value="">🎯 Choose an event...</option>
+                                <option value="">Choose an event...</option>
                             </select>
                         </div>
                         <div id="reservations-container"></div>
@@ -812,6 +919,7 @@
         <script>
             let currentUser = null;
             let events = [];
+            let currentEditingReservation = null; // Store current reservation being edited
 
             // Tab switching
             function switchTab(tabName) {
@@ -826,6 +934,43 @@
                 // Show selected tab
                 document.getElementById(tabName).classList.add("active");
                 event.target.classList.add("active");
+            }
+
+            // Modal functions
+            function openEditModal() {
+                document.getElementById("editModal").style.display = "block";
+            }
+
+            function closeEditModal() {
+                document.getElementById("editModal").style.display = "none";
+                document.getElementById("edit-reservation-form").reset();
+                document.getElementById("modal-error").style.display = "none";
+                currentEditingReservation = null;
+            }
+
+            // Toast notification function
+            function showToast(message, isError = false) {
+                const toast = document.createElement("div");
+                toast.className = `toast ${isError ? "error" : ""}`;
+                toast.innerHTML = `
+                    <span>${isError ? "❌" : "✅"}</span>
+                    <span>${message}</span>
+                `;
+                document.body.appendChild(toast);
+
+                // Auto remove after 4 seconds
+                setTimeout(() => {
+                    toast.style.animation = "slideInUp 0.4s ease reverse";
+                    setTimeout(() => toast.remove(), 400);
+                }, 4000);
+            }
+
+            // Close modal when clicking outside
+            window.onclick = function(event) {
+                const modal = document.getElementById("editModal");
+                if (event.target === modal) {
+                    closeEditModal();
+                }
             }
 
             // Authenticated fetch function
@@ -875,9 +1020,8 @@
                         .getElementById("admin-content")
                         .classList.remove("hidden");
                     document.getElementById("user-info").textContent =
-                        `👤 ${currentUser.email}`;
-                    loadEvents();
-                    loadReservations();
+                        `${currentUser.email}`;
+                    await loadEvents(); // Wait for events to load first
                 } catch (error) {
                     console.error("Error:", error);
                     window.location.href = "login.html";
@@ -889,6 +1033,8 @@
                 try {
                     const data = await authFetch("/api/events");
                     events = data;
+
+                    // Reservation counts are now included in the API response
                     displayEventsTable();
                     loadEventSelect();
                 } catch (error) {
@@ -900,6 +1046,7 @@
                 }
             }
 
+
             // Display events table
             function displayEventsTable() {
                 const container = document.getElementById("events-list");
@@ -907,7 +1054,7 @@
                 if (events.length === 0) {
                     container.innerHTML = `
                     <div style="text-align: center; padding: 2rem; color: var(--gray);">
-                        <p style="font-size: 1.1rem;">📭 No events yet</p>
+                        <p style="font-size: 1.1rem;">No events yet</p>
                         <p>Create your first event using the "Create Event" tab</p>
                     </div>
                 `;
@@ -924,20 +1071,20 @@
                                 <h3 class="event-card-title">${escapeHtml(event.title)}</h3>
                             </div>
                             <div class="event-meta">
-                                <div class="event-meta-item">📍 ${escapeHtml(event.location)}</div>
-                                <div class="event-meta-item">📅 ${new Date(event.date).toLocaleDateString()}</div>
-                                <div class="event-meta-item">🪑 ${event.availableSeats} seats</div>
-                                <div class="event-meta-item">📝 ${event.reservations?.length || 0} bookings</div>
+                                <div class="event-meta-item">${escapeHtml(event.location)}</div>
+                                <div class="event-meta-item">${new Date(event.date).toLocaleDateString()}</div>
+                                <div class="event-meta-item">${event.seats} seats</div>
+                                <div class="event-meta-item">${event.reservationCount || 0} bookings</div>
                             </div>
                             <p style="color: var(--gray); font-size: 0.9rem; line-height: 1.4;">
                                 ${escapeHtml(event.description).substring(0, 100)}...
                             </p>
                             <div class="event-actions">
                                 <button class="btn btn-small" onclick="editEvent(${event.id})">
-                                    ✏️ Edit
+                                    Edit
                                 </button>
                                 <button class="btn btn-danger btn-small" onclick="deleteEvent(${event.id})">
-                                    🗑️ Delete
+                                    Delete
                                 </button>
                             </div>
                         </div>
@@ -962,7 +1109,7 @@
                     .join("");
 
                 select.innerHTML = `
-                <option value="">🎯 Choose an event...</option>
+                <option value="">Choose an event...</option>
                 ${options}
             `;
 
@@ -979,7 +1126,7 @@
 
                 if (!eventId) {
                     document.getElementById("participants-list").innerHTML =
-                        '<p style="color: var(--gray); text-align: center; padding: 2rem;">👆 Select an event above to view participants</p>';
+                        '<p style="color: var(--gray); text-align: center; padding: 2rem;">Select an event above to view participants</p>';
                     document.getElementById(
                         "reservations-container",
                     ).innerHTML = "";
@@ -993,7 +1140,7 @@
 
                     if (!data || data.length === 0) {
                         document.getElementById("participants-list").innerHTML =
-                            '<p style="color: var(--gray); text-align: center; padding: 2rem;">📭 No reservations yet</p>';
+                            '<p style="color: var(--gray); text-align: center; padding: 2rem;">No reservations yet</p>';
                         document.getElementById(
                             "reservations-container",
                         ).innerHTML = "";
@@ -1019,27 +1166,27 @@
                         (res) => `
                 <div class="reservation-card">
                     <div class="reservation-header">
-                        <h4>👤 ${escapeHtml(res.name)}</h4>
+                        <h4>${escapeHtml(res.name)}</h4>
                         <div style="color: var(--gray); font-size: 0.85rem;">
                             ${new Date(res.created_at).toLocaleDateString()}
                         </div>
                     </div>
                     <div class="reservation-info">
                         <div>
-                            <strong>📧 Email</strong>
+                            <strong>Email</strong>
                             ${escapeHtml(res.email)}
                         </div>
                         <div>
-                            <strong>📱 Phone</strong>
+                            <strong>Phone</strong>
                             ${escapeHtml(res.phone)}
                         </div>
                     </div>
                     <div class="reservation-actions">
                         <button class="btn btn-small" onclick="editReservation(${res.id})">
-                            ✏️ Edit
+                            Edit
                         </button>
                         <button class="btn btn-danger btn-small" onclick="deleteReservation(${res.id})">
-                            🗑️ Delete
+                            Delete
                         </button>
                     </div>
                 </div>
@@ -1048,16 +1195,21 @@
                     .join("");
 
                 container.innerHTML = `
-                <h3>📋 Reservations (${reservations.length})</h3>
+                <h3>Reservations (${reservations.length})</h3>
                 ${reservationsHTML}
             `;
             }
 
-            // Create event
+            // Create/Update event form
             document
                 .getElementById("create-event-form")
                 .addEventListener("submit", async (e) => {
                     e.preventDefault();
+
+                    const eventId = document.getElementById(
+                        "create-event-form"
+                    ).dataset.eventId;
+                    const isUpdate = !!eventId;
 
                     const formData = {
                         title: document.getElementById("event-title").value,
@@ -1075,18 +1227,45 @@
                     };
 
                     try {
-                        const data = await authFetch("/api/events", {
-                            method: "POST",
-                            body: JSON.stringify(formData),
-                        });
+                        if (isUpdate) {
+                            // Update existing event
+                            await authFetch(`/api/events/${eventId}`, {
+                                method: "PUT",
+                                body: JSON.stringify(formData),
+                            });
 
-                        document.getElementById(
-                            "create-event-success",
-                        ).style.display = "block";
-                        document.getElementById(
-                            "create-event-success",
-                        ).textContent = "✅ Event created successfully!";
+                            document.getElementById(
+                                "create-event-success",
+                            ).style.display = "block";
+                            document.getElementById(
+                                "create-event-success",
+                            ).textContent =
+                                "Event updated successfully!";
+                        } else {
+                            // Create new event
+                            const data = await authFetch("/api/events", {
+                                method: "POST",
+                                body: JSON.stringify(formData),
+                            });
+
+                            document.getElementById(
+                                "create-event-success",
+                            ).style.display = "block";
+                            document.getElementById(
+                                "create-event-success",
+                            ).textContent =
+                                "Event created successfully!";
+                        }
+
                         document.getElementById("create-event-form").reset();
+                        delete document.getElementById("create-event-form")
+                            .dataset.eventId;
+
+                        // Reset form UI to create mode
+                        document.querySelector(".card-header .card-icon").textContent = "";
+                        document.querySelector(".card h2").textContent = "Create New Event";
+                        const submitBtn = document.getElementById("create-event-form").querySelector("button[type='submit']");
+                        submitBtn.innerHTML = 'Create Event';
 
                         setTimeout(() => {
                             document.getElementById(
@@ -1095,12 +1274,15 @@
                             loadEvents();
                         }, 2000);
                     } catch (error) {
+                        console.error("Error:", error);
                         document.getElementById(
                             "create-event-error",
                         ).style.display = "block";
                         document.getElementById(
                             "create-event-error",
-                        ).textContent = "❌ Failed to create event";
+                        ).textContent = isUpdate
+                            ? "Failed to update event"
+                            : "Failed to create event";
                     }
                 });
 
@@ -1109,6 +1291,7 @@
                 const event = events.find((e) => e.id === eventId);
                 if (!event) return;
 
+                // Populate form fields
                 document.getElementById("event-title").value = event.title;
                 document.getElementById("event-location").value =
                     event.location;
@@ -1116,39 +1299,125 @@
                     0,
                     16,
                 );
-                document.getElementById("event-seats").value = event.seats;
+                // Handle both 'seats' and 'availableSeats' property names
+                document.getElementById("event-seats").value =
+                    event.seats || event.availableSeats;
                 document.getElementById("event-description").value =
                     event.description;
                 document.getElementById("event-image").value =
                     event.image || "";
 
-                document.getElementById("create-event-form").dataset.eventId =
-                    eventId;
+                // Mark form as editing
+                const form = document.getElementById("create-event-form");
+                form.dataset.eventId = eventId;
+
+                // Update form UI for edit mode
+                document.querySelector(".card-header .card-icon").textContent = "";
+                document.querySelector(".card h2").textContent = "Update Event";
+                const submitBtn = form.querySelector("button[type='submit']");
+                submitBtn.innerHTML = 'Update Event';
+
+                // Scroll to create tab and switch to it
+                switchTab("create");
+
+                // Scroll the form into view
+                document
+                    .querySelector(".tab-content.active")
+                    .scrollIntoView({ behavior: "smooth" });
             }
 
             // Delete event
             async function deleteEvent(eventId) {
-                if (!confirm("🗑️ Are you sure you want to delete this event?"))
+                if (!confirm("Are you sure you want to delete this event?"))
                     return;
 
                 try {
                     await authFetch(`/api/events/${eventId}`, {
                         method: "DELETE",
                     });
+                    showToast("Event deleted successfully!");
                     loadEvents();
                 } catch (error) {
-                    alert("❌ Failed to delete event");
+                    console.error("Error deleting event:", error);
+                    showToast("Failed to delete event", true);
                 }
             }
 
             // Edit reservation
             async function editReservation(reservationId) {
-                alert("✏️ Edit reservation feature coming soon!");
+                try {
+                    // Load current reservations to find the one we're editing
+                    const eventId = document.getElementById("event-select").value;
+                    const reservations = await authFetch(
+                        `/api/admin/events/${eventId}/reservations`
+                    );
+
+                    const reservation = reservations.find(
+                        (r) => r.id === reservationId
+                    );
+                    if (!reservation) {
+                        showToast("Reservation not found", true);
+                        return;
+                    }
+
+                    // Populate modal with reservation data
+                    currentEditingReservation = reservation;
+                    document.getElementById("edit-res-name").value =
+                        reservation.name;
+                    document.getElementById("edit-res-email").value =
+                        reservation.email;
+                    document.getElementById("edit-res-phone").value =
+                        reservation.phone;
+
+                    openEditModal();
+                } catch (error) {
+                    console.error("Error loading reservation:", error);
+                    showToast("Failed to load reservation", true);
+                }
             }
+
+            // Handle edit reservation form submission
+            document
+                .getElementById("edit-reservation-form")
+                .addEventListener("submit", async (e) => {
+                    e.preventDefault();
+
+                    if (!currentEditingReservation) {
+                        showToast("No reservation selected", true);
+                        return;
+                    }
+
+                    const formData = {
+                        name: document.getElementById("edit-res-name").value,
+                        email: document.getElementById("edit-res-email").value,
+                        phone: document.getElementById("edit-res-phone").value,
+                    };
+
+                    try {
+                        await authFetch(
+                            `/api/admin/reservations/${currentEditingReservation.id}`,
+                            {
+                                method: "PUT",
+                                body: JSON.stringify(formData),
+                            }
+                        );
+
+                        closeEditModal();
+                        await loadReservations(); // Refresh the reservation list
+                        showToast("Reservation updated successfully!");
+                    } catch (error) {
+                        console.error("Error updating reservation:", error);
+                        document.getElementById("modal-error").style.display =
+                            "block";
+                        document.getElementById("modal-error").textContent =
+                            "❌ Failed to update reservation. Please try again.";
+                        showToast("Failed to update reservation", true);
+                    }
+                });
 
             // Delete reservation
             async function deleteReservation(reservationId) {
-                if (!confirm("🗑️ Are you sure?")) return;
+                if (!confirm("Are you sure?")) return;
 
                 try {
                     await authFetch(
@@ -1157,9 +1426,11 @@
                             method: "DELETE",
                         },
                     );
+                    showToast("Reservation deleted successfully!");
                     loadReservations();
                 } catch (error) {
-                    alert("❌ Failed to delete reservation");
+                    console.error("Error deleting reservation:", error);
+                    showToast("Failed to delete reservation", true);
                 }
             }
 

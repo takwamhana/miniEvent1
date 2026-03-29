@@ -27,3 +27,4 @@ services:
     App\Service\MailerService:
         arguments:
             $mailerFrom: "%env(MAILER_FROM)%"
+            $mailerReplyTo: "%env(MAILER_REPLY_TO)%"

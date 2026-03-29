@@ -27,9 +27,13 @@ class EventController extends AbstractController
     #[Route('', name: 'api_events_list', methods: ['GET'])]
     public function list(): JsonResponse
     {
-        $events = $this->eventRepository->findAll();
+        // Eager load reservations with events in a single query (JOIN)
+        $events = $this->entityManager
+            ->createQuery('SELECT e, r FROM App\Entity\Event e LEFT JOIN e.reservations r ORDER BY e.date DESC')
+            ->getResult();
+
         $data = array_map(fn($event) => $event->toArray(), $events);
-        
+
         return new JsonResponse($data);
     }
 
