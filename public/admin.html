@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Event - Administration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .admin-section {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .events-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .events-table th,
+        .events-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .events-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .events-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-edit {
+            background: #ffc107;
+            color: #212529;
+            margin-right: 0.5rem;
+        }
+
+        .btn-edit:hover {
+            background: #e0a800;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #c82333;
+        }
+
+        .reservation-item {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .reservation-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .reservation-actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .participants-table {
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+
+        .participants-table table {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .reservations-list {
+            margin-top: 1rem;
+        }
+
+        .reservation-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .reservation-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .user-info {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            margin-bottom: 1.5rem;
+            color: #333;
+            font-size: 1.5rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Mini Event - Administration</h1>
+            <div class="user-info" id="user-info"></div>
+            <div class="header-actions">
+                <a href="index.html" class="btn">Voir le site</a>
+                <button onclick="logout()" class="btn btn-secondary">Déconnexion</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="loading" class="loading">Vérification de l'authentification...</div>
+        <div id="error" class="error" style="display: none;"></div>
+        <div id="events-error" class="error" style="display: none;"></div>
+        
+        <div id="admin-content" class="hidden">
+            <!-- Create Event Section -->
+            <section class="admin-section">
+                <h2 class="section-title">Créer un nouvel événement</h2>
+                <div id="create-event-error" class="error" style="display: none;"></div>
+                <div id="create-event-success" class="success" style="display: none;"></div>
+                
+                <form id="create-event-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="event-title">Titre *</label>
+                            <input type="text" id="event-title" name="title" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="event-location">Lieu *</label>
+                            <input type="text" id="event-location" name="location" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="event-date">Date et heure *</label>
+                            <input type="datetime-local" id="event-date" name="date" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="event-seats">Nombre de places *</label>
+                            <input type="number" id="event-seats" name="seats" class="form-input" min="1" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="event-description">Description *</label>
+                        <textarea id="event-description" name="description" class="form-input" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="event-image">URL de l'image (optionnel)</label>
+                        <input type="url" id="event-image" name="image" class="form-input">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Créer l'événement</button>
+                </form>
+            </section>
+
+            <!-- Events Management Section -->
+            <section class="admin-section">
+                <div class="card">
+                    <h2>📋 Liste des Événements</h2>
+                    <div id="events-list" class="events-list">
+                        <p>Chargement des événements...</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>👥 Gestion des Participants</h2>
+                    <div class="form-group">
+                        <label class="form-label" for="event-select">Sélectionner un événement</label>
+                        <select id="event-select" class="form-input">
+                            <option value="">Choisir un événement...</option>
+                        </select>
+                    </div>
+                    <div id="reservations-container"></div>
+                    <div id="participants-list">
+                        <p>Sélectionnez un événement pour voir les participants</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        let currentUser = null;
+        let events = [];
+
+        // Authenticated fetch function
+        async function authFetch(url, options = {}) {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('Non authentifié');
+            }
+
+            const defaultOptions = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                    ...options.headers
+                }
+            };
+
+            return fetch(url, { ...defaultOptions, ...options });
+        }
+
+        function checkAuth() {
+            console.log('Checking authentication...');
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+
+            console.log('Token:', token);
+            console.log('User:', user);
+
+            if (!token || !user) {
+                console.log('No token or user found, redirecting to login');
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').style.display = 'block';
+                document.getElementById('error').textContent = 'Non authentifié. Redirection en cours...';
+                setTimeout(() => window.location.href = 'login.html', 2000);
+                return false;
+            }
+
+            try {
+                currentUser = JSON.parse(user);
+                console.log('Current user:', currentUser);
+
+                if (!currentUser.roles || !currentUser.roles.includes('ROLE_ADMIN')) {
+                    console.log('User is not admin, redirecting');
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('error').style.display = 'block';
+                    document.getElementById('error').textContent = 'Accès non autorisé. Vous devez être administrateur.';
+                    setTimeout(() => window.location.href = 'index.html', 2000);
+                    return false;
+                }
+
+                // Show loading complete
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('admin-content').classList.remove('hidden');
+                document.getElementById('user-info').textContent = `Connecté en tant que ${currentUser.email}`;
+                console.log('Authentication successful');
+                return true;
+            } catch (e) {
+                console.error('Error parsing user:', e);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').style.display = 'block';
+                document.getElementById('error').textContent = 'Erreur de connexion. Veuillez vous reconnecter.';
+                setTimeout(() => window.location.href = 'login.html', 3000);
+                return false;
+            }
+        }
+
+        // Load events
+        async function loadEvents() {
+            console.log('Loading events...');
+            try {
+                const response = await authFetch('/api/events');
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    console.error('Response not ok:', response.status, response.statusText);
+                    throw new Error('Erreur lors du chargement des événements');
+                }
+                
+                events = await response.json();
+                console.log('Events loaded:', events);
+                console.log('Number of events:', events.length);
+
+                displayEventsTable();
+                populateEventSelect();
+            } catch (error) {
+                console.error('Error loading events:', error);
+                showError('events-error', error.message);
+            }
+        }
+
+        // Populate event select
+        function populateEventSelect() {
+            const select = document.getElementById('event-select');
+            if (select) {
+                select.innerHTML = '<option value="">Choisir un événement...</option>' +
+                    events.map(event => `<option value="${escapeHtml(event.id)}">${escapeHtml(event.title)}</option>`).join('');
+            }
+        }
+
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Load reservations for selected event
+        async function loadReservations(eventId) {
+            if (!eventId) {
+                document.getElementById('reservations-container').innerHTML = '';
+                document.getElementById('participants-list').innerHTML = '<p>Sélectionnez un événement pour voir les participants</p>';
+                return;
+            }
+
+            try {
+                const response = await authFetch(`/api/admin/events/${eventId}/reservations`);
+                if (!response.ok) throw new Error('Erreur lors du chargement des réservations');
+                
+                const reservations = await response.json();
+                displayReservations(reservations);
+            } catch (error) {
+                console.error('Error loading reservations:', error);
+                document.getElementById('reservations-container').innerHTML = 
+                    '<div class="error">Erreur lors du chargement des réservations</div>';
+            }
+        }
+
+        // Display reservations
+        function displayReservations(reservations) {
+            const container = document.getElementById('reservations-container');
+            const participantsContainer = document.getElementById('participants-list');
+            
+            if (reservations.length === 0) {
+                container.innerHTML = '<p>Aucune réservation pour cet événement.</p>';
+                participantsContainer.innerHTML = '<p>Aucun participant pour cet événement.</p>';
+                return;
+            }
+
+            // Display in reservations container
+            container.innerHTML = `
+                <h3>${reservations.length} réservation(s)</h3>
+                <div class="reservations-list">
+                    ${reservations.map(reservation => `
+                        <div class="reservation-item" data-id="${escapeHtml(reservation.id)}">
+                            <div class="reservation-meta">
+                                <div><strong>Nom:</strong> ${escapeHtml(reservation.name)}</div>
+                                <div><strong>Email:</strong> ${escapeHtml(reservation.email)}</div>
+                                <div><strong>Téléphone:</strong> ${escapeHtml(reservation.phone)}</div>
+                                <div><strong>Date:</strong> ${new Date(reservation.createdAt).toLocaleDateString('fr-FR')}</div>
+                            </div>
+                            <div class="reservation-actions">
+                                <button class="btn btn-small btn-edit" data-reservation-id="${escapeHtml(reservation.id)}" data-name="${escapeHtml(reservation.name)}" data-email="${escapeHtml(reservation.email)}" data-phone="${escapeHtml(reservation.phone)}">✏️ Modifier</button>
+                                <button class="btn btn-small btn-delete" data-reservation-id="${escapeHtml(reservation.id)}">🗑️ Supprimer</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            // Add event listeners using delegation
+            container.querySelectorAll('.btn-edit').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    editReservation(
+                        btn.dataset.reservationId,
+                        btn.dataset.name,
+                        btn.dataset.email,
+                        btn.dataset.phone
+                    );
+                });
+            });
+
+            container.querySelectorAll('.btn-delete').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    deleteReservation(btn.dataset.reservationId);
+                });
+            });
+
+            // Display in participants management section
+            participantsContainer.innerHTML = `
+                <h4>Liste des Participants (${reservations.length})</h4>
+                <div class="participants-table">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #f8f9fa;">
+                                <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">Nom</th>
+                                <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">Email</th>
+                                <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">Téléphone</th>
+                                <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">Date</th>
+                                <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${reservations.map(reservation => `
+                                <tr>
+                                    <td style="padding: 12px; border: 1px solid #ddd;">${escapeHtml(reservation.name)}</td>
+                                    <td style="padding: 12px; border: 1px solid #ddd;">${escapeHtml(reservation.email)}</td>
+                                    <td style="padding: 12px; border: 1px solid #ddd;">${escapeHtml(reservation.phone)}</td>
+                                    <td style="padding: 12px; border: 1px solid #ddd;">${new Date(reservation.createdAt).toLocaleDateString('fr-FR')}</td>
+                                    <td style="padding: 12px; border: 1px solid #ddd;">
+                                        <button class="btn btn-small btn-edit" data-reservation-id="${escapeHtml(reservation.id)}" data-name="${escapeHtml(reservation.name)}" data-email="${escapeHtml(reservation.email)}" data-phone="${escapeHtml(reservation.phone)}">✏️</button>
+                                        <button class="btn btn-small btn-delete" data-reservation-id="${escapeHtml(reservation.id)}">🗑️</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            // Add event listeners for participants table buttons
+            participantsContainer.querySelectorAll('.btn-edit').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    editReservation(
+                        btn.dataset.reservationId,
+                        btn.dataset.name,
+                        btn.dataset.email,
+                        btn.dataset.phone
+                    );
+                });
+            });
+
+            participantsContainer.querySelectorAll('.btn-delete').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    deleteReservation(btn.dataset.reservationId);
+                });
+            });
+        }
+
+        // Display events table
+        function displayEventsTable() {
+            console.log('Displaying events table...');
+            const container = document.getElementById('events-list');
+            
+            if (!container) {
+                console.error('Events container not found');
+                return;
+            }
+            
+            if (events.length === 0) {
+                container.innerHTML = '<p>Aucun événement trouvé.</p>';
+                return;
+            }
+
+            let html = `
+                <table class="events-table">
+                    <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Date</th>
+                            <th>Lieu</th>
+                            <th>Places</th>
+                            <th>Disponibles</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            events.forEach(event => {
+                html += `
+                    <tr>
+                        <td>${escapeHtml(event.title)}</td>
+                        <td>${new Date(event.date).toLocaleDateString('fr-FR')}</td>
+                        <td>${escapeHtml(event.location)}</td>
+                        <td>${escapeHtml(event.seats)}</td>
+                        <td>${escapeHtml(event.availableSeats)}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button onclick="editEvent(${event.id})" class="btn btn-small btn-primary">Modifier</button>
+                                <button onclick="deleteEvent(${event.id})" class="btn btn-small btn-danger">Supprimer</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                    </tbody>
+                </table>
+            `;
+
+            container.innerHTML = html;
+            console.log('Events table displayed');
+        }
+
+        // Create event
+        async function createEvent(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = {
+                title: formData.get('title'),
+                description: formData.get('description'),
+                location: formData.get('location'),
+                date: formData.get('date'),
+                seats: parseInt(formData.get('seats')),
+                image: formData.get('image') || null
+            };
+
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Création en cours...';
+
+            try {
+                const response = await authFetch('/api/events', {
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    const result = await response.json();
+                    throw new Error(result.error || 'Erreur lors de la création de l\'événement');
+                }
+
+                const result = await response.json();
+                showSuccess('create-event-success', 'Événement créé avec succès !');
+                e.target.reset();
+                await loadEvents(); // Reload events list
+
+            } catch (error) {
+                console.error('Error creating event:', error);
+                showError('create-event-error', error.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        }
+
+        // Edit event (simplified - would need a modal or form)
+        function editEvent(eventId) {
+            const event = events.find(e => e.id === eventId);
+            if (!event) return;
+
+            // Populate form with event data
+            document.getElementById('event-title').value = event.title;
+            document.getElementById('event-description').value = event.description;
+            document.getElementById('event-location').value = event.location;
+            
+            // Ensure date format is correct
+            try {
+                const dateObj = new Date(event.date);
+                if (!isNaN(dateObj.getTime())) {
+                    document.getElementById('event-date').value = dateObj.toISOString().slice(0, 16);
+                }
+            } catch (e) {
+                console.error('Error parsing date:', e);
+            }
+            
+            document.getElementById('event-seats').value = event.seats;
+            document.getElementById('event-image').value = event.image || '';
+
+            // Change form submission to update instead of create
+            const form = document.getElementById('create-event-form');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            
+            // Store original submit handler
+            form.dataset.mode = 'edit';
+            form.dataset.eventId = eventId;
+            submitBtn.textContent = 'Mettre à jour l\'événement';
+            
+            // Scroll to form
+            document.querySelector('.admin-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Update event
+        async function updateEvent(e, eventId) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = {
+                title: formData.get('title'),
+                description: formData.get('description'),
+                location: formData.get('location'),
+                date: formData.get('date'),
+                seats: parseInt(formData.get('seats')),
+                image: formData.get('image') || null
+            };
+
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Mise à jour en cours...';
+
+            try {
+                const response = await authFetch(`/api/events/${eventId}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    const result = await response.json();
+                    throw new Error(result.error || 'Erreur lors de la mise à jour de l\'événement');
+                }
+
+                const result = await response.json();
+                showSuccess('create-event-success', 'Événement mis à jour avec succès !');
+                e.target.reset();
+                await loadEvents(); // Reload events list
+
+                // Reset form to create mode
+                const createForm = document.getElementById('create-event-form');
+                delete createForm.dataset.mode;
+                delete createForm.dataset.eventId;
+                submitBtn.textContent = 'Créer l\'événement';
+
+            } catch (error) {
+                console.error('Error updating event:', error);
+                showError('create-event-error', error.message);
+            } finally {
+                submitBtn.disabled = false;
+                if (!e.target.dataset.mode) {
+                    submitBtn.textContent = 'Créer l\'événement';
+                } else {
+                    submitBtn.textContent = originalText;
+                }
+            }
+        }
+
+        // Delete event
+        async function deleteEvent(eventId) {
+            if (!confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')) {
+                return;
+            }
+
+            try {
+                const response = await authFetch(`/api/events/${eventId}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.error || 'Erreur lors de la suppression de l\'événement');
+                }
+
+                showSuccess('create-event-success', 'Événement supprimé avec succès !');
+                await loadEvents(); // Reload events list
+
+            } catch (error) {
+                console.error('Error deleting event:', error);
+                showError('create-event-error', error.message);
+            }
+        }
+
+        // Edit reservation
+        async function editReservation(id, name, email, phone) {
+            const newName = prompt('Modifier le nom:', name);
+            if (newName === null) return; // User cancelled
+            
+            const newEmail = prompt('Modifier l\'email:', email);
+            if (newEmail === null) return; // User cancelled
+            
+            const newPhone = prompt('Modifier le téléphone:', phone);
+            if (newPhone === null) return; // User cancelled
+
+            try {
+                const response = await authFetch(`/api/admin/reservations/${id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        name: newName,
+                        email: newEmail,
+                        phone: newPhone
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.error || 'Erreur lors de la modification de la réservation');
+                }
+
+                showSuccess('create-event-success', 'Réservation modifiée avec succès !');
+                const selectedEventId = document.getElementById('event-select').value;
+                if (selectedEventId) {
+                    await loadReservations(selectedEventId); // Reload reservations list
+                }
+
+            } catch (error) {
+                console.error('Error editing reservation:', error);
+                showError('create-event-error', error.message);
+            }
+        }
+
+        // Delete reservation
+        async function deleteReservation(id) {
+            if (!confirm('Êtes-vous sûr de vouloir supprimer cette réservation ?')) {
+                return;
+            }
+
+            try {
+                const response = await authFetch(`/api/admin/reservations/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.error || 'Erreur lors de la suppression de la réservation');
+                }
+
+                showSuccess('create-event-success', 'Réservation supprimée avec succès !');
+                const selectedEventId = document.getElementById('event-select').value;
+                if (selectedEventId) {
+                    await loadReservations(selectedEventId); // Reload reservations list
+                }
+
+            } catch (error) {
+                console.error('Error deleting reservation:', error);
+                showError('create-event-error', error.message);
+            }
+        }
+
+        // Show error message
+        function showError(elementId, message) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = message;
+                element.style.display = 'block';
+                setTimeout(() => {
+                    element.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // Show success message
+        function showSuccess(elementId, message) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = message;
+                element.style.display = 'block';
+                setTimeout(() => {
+                    element.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('refresh_token');
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!checkAuth()) {
+                return;
+            }
+
+            loadEvents();
+
+            const createForm = document.getElementById('create-event-form');
+            if (createForm) {
+                createForm.addEventListener('submit', (e) => {
+                    // Check if in edit mode
+                    if (createForm.dataset.mode === 'edit' && createForm.dataset.eventId) {
+                        updateEvent(e, createForm.dataset.eventId);
+                    } else {
+                        createEvent(e);
+                    }
+                });
+            }
+
+            const eventSelect = document.getElementById('event-select');
+            if (eventSelect) {
+                eventSelect.addEventListener('change', (e) => {
+                    const eventId = e.target.value;
+                    if (eventId) {
+                        loadReservations(eventId);
+                    } else {
+                        document.getElementById('reservations-container').innerHTML = '';
+                        document.getElementById('participants-list').innerHTML = '<p>Sélectionnez un événement pour voir les participants</p>';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

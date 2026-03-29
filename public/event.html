@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Event - Détails de l'événement</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .event-detail {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .event-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .event-content {
+            padding: 2rem;
+        }
+
+        .event-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .event-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-item {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .meta-label {
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+
+        .meta-value {
+            color: #333;
+        }
+
+        .event-description {
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .reservation-form {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        .no-seats {
+            background: #fff3cd;
+            color: #856404;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Mini Event</h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="index.html" class="back-link">← Retour aux événements</a>
+        
+        <div id="loading" class="loading">Chargement de l'événement...</div>
+        <div id="error" class="error" style="display: none;"></div>
+        
+        <div id="event-container" style="display: none;">
+            <div class="event-detail">
+                <div class="event-image" id="event-image">
+                    📅
+                </div>
+                <div class="event-content">
+                    <h2 class="event-title" id="event-title"></h2>
+                    <div class="event-meta">
+                        <div class="meta-item">
+                            <div class="meta-label">Date</div>
+                            <div class="meta-value" id="event-date"></div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">Lieu</div>
+                            <div class="meta-value" id="event-location"></div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">Places disponibles</div>
+                            <div class="meta-value" id="event-seats"></div>
+                        </div>
+                    </div>
+                    <div class="event-description" id="event-description"></div>
+                </div>
+            </div>
+
+            <div class="reservation-form">
+                <h3 class="form-title">Réserver une place</h3>
+                <div id="no-seats-message" class="no-seats" style="display: none;">
+                    Désolé, il n'y a plus de places disponibles pour cet événement.
+                </div>
+                <form id="reservation-form">
+                    <div class="form-group">
+                        <label class="form-label" for="name">Nom complet *</label>
+                        <input type="text" id="name" name="name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email *</label>
+                        <input type="email" id="email" name="email" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="phone">Téléphone *</label>
+                        <input type="tel" id="phone" name="phone" class="form-input" required>
+                    </div>
+                    <button type="submit" class="btn" id="submit-btn">Confirmer la réservation</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentEvent = null;
+
+        async function loadEvent() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const eventId = urlParams.get('id');
+
+            if (!eventId) {
+                showError('ID d\'événement manquant');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/events/${eventId}`);
+                
+                if (!response.ok) {
+                    throw new Error('Événement non trouvé');
+                }
+                
+                const event = await response.json();
+                currentEvent = event;
+                displayEvent(event);
+            } catch (error) {
+                console.error('Error:', error);
+                showError(error.message);
+            }
+        }
+
+        function displayEvent(event) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('event-container').style.display = 'block';
+
+            document.getElementById('event-title').textContent = event.title;
+            document.getElementById('event-date').textContent = new Date(event.date).toLocaleDateString('fr-FR', { 
+                day: 'numeric', 
+                month: 'long', 
+                year: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            document.getElementById('event-location').textContent = event.location;
+            document.getElementById('event-seats').textContent = `${event.availableSeats} place${event.availableSeats > 1 ? 's' : ''}`;
+            document.getElementById('event-description').textContent = event.description;
+
+            if (event.image) {
+                document.getElementById('event-image').innerHTML = `<img src="${event.image}" alt="${event.title}" style="width: 100%; height: 100%; object-fit: cover;">`;
+            }
+
+            // Disable form if no seats available
+            if (event.availableSeats <= 0) {
+                document.getElementById('no-seats-message').style.display = 'block';
+                document.getElementById('reservation-form').style.display = 'none';
+            }
+        }
+
+        async function submitReservation(e) {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone')
+            };
+
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Réservation en cours...';
+
+            try {
+                const response = await fetch(`/api/events/${currentEvent.id}/reservations`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || 'Erreur lors de la réservation');
+                }
+
+                // Show success message
+                const successDiv = document.createElement('div');
+                successDiv.className = 'success';
+                successDiv.textContent = 'Votre réservation a été confirmée ! Un email de confirmation vous a été envoyé.';
+                
+                document.querySelector('.reservation-form').innerHTML = '';
+                document.querySelector('.reservation-form').appendChild(successDiv);
+
+            } catch (error) {
+                console.error('Error:', error);
+                showError(error.message);
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Confirmer la réservation';
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'block';
+            document.getElementById('error').textContent = message;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadEvent();
+            document.getElementById('reservation-form').addEventListener('submit', submitReservation);
+        });
+    </script>
+</body>
+</html>

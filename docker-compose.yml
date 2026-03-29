@@ -1,0 +1,55 @@
+services:
+    php:
+        build: .
+        container_name: mini-event-php
+        working_dir: /var/www/html
+        volumes:
+            - ./:/var/www/html
+            - ./var/jwt:/var/www/html/var/jwt
+        environment:
+            - APP_ENV=dev
+            - APP_SECRET=${APP_SECRET:-your-secret-key-here}
+            - DATABASE_URL=postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-!ChangeMe!}@postgres:5432/${POSTGRES_DB:-app}
+            - JWT_SECRET=${JWT_SECRET:-your-super-secret-jwt-key-change-in-production-min-32-chars}
+            - MAILER_DSN=${MAILER_DSN:-smtp://mailtrap.io:2525?username=&password=}
+            - MAILER_FROM=${MAILER_FROM:-noreply@localhost}
+        ports:
+            - "9000:9000"
+        depends_on:
+            - postgres
+        networks:
+            - mini-event-network
+
+    nginx:
+        image: nginx:alpine
+        container_name: mini-event-nginx
+        ports:
+            - "8080:80"
+        volumes:
+            - ./:/var/www/html
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - php
+        networks:
+            - mini-event-network
+
+    postgres:
+        image: postgres:15-alpine
+        container_name: mini-event-postgres
+        environment:
+            POSTGRES_DB: ${POSTGRES_DB:-app}
+            POSTGRES_USER: ${POSTGRES_USER:-app}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+        ports:
+            - "5432:5432"
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        networks:
+            - mini-event-network
+
+volumes:
+    postgres_data:
+
+networks:
+    mini-event-network:
+        driver: bridge
