@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Eventize - Discover Events</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            :root {
+                --navy: #0f172a;
+                --navy-light: #1e293b;
+                --gold: #c8a882;
+                --cream: #faf8f5;
+                --gray: #64748b;
+                --white: #ffffff;
+                --teal: #4a9b7f;
+            }
+
+            body {
+                font-family: "Inter", sans-serif;
+                background: var(--cream);
+                color: var(--navy);
+                line-height: 1.6;
+            }
+
+            /* Navigation */
+            .navbar {
+                background: linear-gradient(135deg, var(--cream) 0%, #faf8f5 100%);
+                padding: 1.5rem 2rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+                border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+            }
+
+            .logo-container {
+                font-family: 'Playfair Display', serif;
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: var(--navy);
+                text-decoration: none;
+                letter-spacing: 1px;
+            }
+
+            .nav-links {
+                display: flex;
+                gap: 3rem;
+                align-items: center;
+            }
+
+            .nav-link {
+                color: var(--gray);
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 0.95rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                transition: color 0.3s;
+            }
+
+            .nav-link:hover {
+                color: var(--teal);
+            }
+
+            /* Hero Section */
+            .hero {
+                padding: 4rem 2rem 3rem;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-family: "Playfair Display", serif;
+                font-size: 3.5rem;
+                color: var(--navy);
+                margin-bottom: 1rem;
+                font-weight: 700;
+            }
+
+            .hero-subtitle {
+                font-size: 1.25rem;
+                color: var(--gray);
+                margin-bottom: 2rem;
+            }
+
+            /* Search & Filter Section */
+            .search-section {
+                max-width: 800px;
+                margin: 0 auto 3rem;
+                padding: 0 2rem;
+            }
+
+            .search-box {
+                display: flex;
+                gap: 1rem;
+                background: var(--white);
+                padding: 0.5rem;
+                border-radius: 12px;
+                box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+            }
+
+            .search-input {
+                flex: 1;
+                padding: 0.75rem 1rem;
+                border: none;
+                font-size: 1rem;
+                outline: none;
+            }
+
+            .search-btn {
+                padding: 0.75rem 2rem;
+                background: var(--navy);
+                color: var(--white);
+                border: none;
+                border-radius: 8px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.3s;
+            }
+
+            .search-btn:hover {
+                background: var(--navy-light);
+            }
+
+            .container {
+                max-width: 1400px;
+                margin: 0 auto;
+                padding: 0 2rem 4rem;
+            }
+
+            .events-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+                gap: 2rem;
+                margin-top: 2rem;
+            }
+
+            .event-card {
+                background: var(--white);
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+                transition: all 0.3s ease;
+            }
+
+            .event-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 12px 40px rgba(15, 23, 42, 0.15);
+            }
+
+            .event-image {
+                width: 100%;
+                height: 240px;
+                overflow: hidden;
+                position: relative;
+            }
+
+            .event-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.3s;
+            }
+
+            .event-card:hover .event-image img {
+                transform: scale(1.05);
+            }
+
+            .event-content {
+                padding: 1.75rem;
+            }
+
+            .event-title {
+                font-family: "Playfair Display", serif;
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+                color: var(--navy);
+                font-weight: 600;
+            }
+
+            .event-meta {
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .event-date,
+            .event-location {
+                color: var(--gray);
+                font-size: 0.95rem;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .event-seats {
+                display: inline-block;
+                background: rgba(200, 168, 130, 0.1);
+                color: var(--gold);
+                padding: 0.5rem 1rem;
+                border-radius: 8px;
+                font-size: 0.9rem;
+                font-weight: 500;
+                margin-bottom: 1rem;
+            }
+
+            .btn {
+                display: inline-block;
+                padding: 0.75rem 1.5rem;
+                background: var(--navy);
+                color: var(--white);
+                text-decoration: none;
+                border-radius: 8px;
+                font-weight: 500;
+                transition: all 0.3s ease;
+                text-align: center;
+            }
+
+            .btn:hover {
+                background: var(--navy-light);
+                transform: translateY(-2px);
+            }
+
+            .loading {
+                text-align: center;
+                padding: 4rem 2rem;
+                font-size: 1.2rem;
+                color: var(--gray);
+            }
+
+            .error {
+                background: rgba(220, 53, 69, 0.1);
+                color: #dc3545;
+                padding: 1rem 1.5rem;
+                border-radius: 12px;
+                margin: 2rem auto;
+                max-width: 600px;
+                text-align: center;
+            }
+
+            .empty-state {
+                text-align: center;
+                padding: 4rem 2rem;
+                color: var(--gray);
+            }
+
+            .empty-state h3 {
+                font-family: "Playfair Display", serif;
+                font-size: 1.75rem;
+                color: var(--navy);
+                margin-bottom: 0.5rem;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar">
+            <a href="home.html" class="logo-container">⭐ EVENTIZE</a>
+            <div class="nav-links">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="index.html" class="nav-link">Events</a>
+                <a href="booking.html" class="nav-link">Book</a>
+                <a href="login.html" class="nav-link">Admin</a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1 class="hero-title">Discover Events</h1>
+            <p class="hero-subtitle">
+                Explore and book amazing events near you
+            </p>
+        </section>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="search-box">
+                <input
+                    type="text"
+                    id="search-input"
+                    class="search-input"
+                    placeholder="Search events by name, location..."
+                />
+                <button class="search-btn" onclick="filterEvents()">
+                    Search
+                </button>
+            </div>
+        </div>
+
+        <!-- Events Grid -->
+        <main class="container">
+            <div id="loading" class="loading">Loading events...</div>
+            <div id="error" class="error" style="display: none"></div>
+            <div id="events-container" class="events-grid"></div>
+        </main>
+
+        <script>
+            let allEvents = [];
+
+            async function loadEvents() {
+                try {
+                    const response = await fetch("/api/events");
+
+                    if (!response.ok) {
+                        throw new Error("Error loading events");
+                    }
+
+                    const events = await response.json();
+                    allEvents = events;
+                    displayEvents(events);
+                } catch (error) {
+                    console.error("Error:", error);
+                    document.getElementById("loading").style.display = "none";
+                    document.getElementById("error").style.display = "block";
+                    document.getElementById("error").textContent =
+                        error.message;
+                }
+            }
+
+            function displayEvents(events) {
+                const container = document.getElementById("events-container");
+                const loading = document.getElementById("loading");
+
+                loading.style.display = "none";
+
+                if (events.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <h3>No Events Found</h3>
+                            <p>No events available at the moment. Check back soon!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Event categories for Unsplash images
+                const categories = [
+                    "conference",
+                    "concert",
+                    "workshop",
+                    "seminar",
+                    "networking",
+                    "festival",
+                ];
+
+                container.innerHTML = events
+                    .map((event, index) => {
+                        const category = categories[index % categories.length];
+                        const imageUrl =
+                            event.image ||
+                            `https://source.unsplash.com/800x600/?event,${category}`;
+
+                        return `
+                <div class="event-card">
+                    <div class="event-image">
+                        <img src="${imageUrl}" alt="${event.title}" onerror="this.src='https://source.unsplash.com/800x600/?event,conference'">
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">${event.title}</h3>
+                        <div class="event-meta">
+                            <div class="event-date">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                                ${new Date(event.date).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" })}
+                            </div>
+                            <div class="event-location">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                                ${event.location}
+                            </div>
+                        </div>
+                        <div class="event-seats">
+                            ${event.availableSeats} seat${event.availableSeats > 1 ? "s" : ""} available
+                        </div>
+                        <a href="event.html?id=${event.id}" class="btn">View Details</a>
+                    </div>
+                </div>
+            `;
+                    })
+                    .join("");
+            }
+
+            function filterEvents() {
+                const searchTerm = document
+                    .getElementById("search-input")
+                    .value.toLowerCase();
+
+                if (!searchTerm) {
+                    displayEvents(allEvents);
+                    return;
+                }
+
+                const filtered = allEvents.filter(
+                    (event) =>
+                        event.title.toLowerCase().includes(searchTerm) ||
+                        event.location.toLowerCase().includes(searchTerm) ||
+                        (event.description &&
+                            event.description
+                                .toLowerCase()
+                                .includes(searchTerm)),
+                );
+
+                displayEvents(filtered);
+            }
+
+            // Allow Enter key to trigger search
+            document.addEventListener("DOMContentLoaded", () => {
+                loadEvents();
+                document
+                    .getElementById("search-input")
+                    .addEventListener("keypress", (e) => {
+                        if (e.key === "Enter") {
+                            filterEvents();
+                        }
+                    });
+            });
+        </script>
+    </body>
+</html>
